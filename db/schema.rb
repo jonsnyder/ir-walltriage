@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120129223811) do
+ActiveRecord::Schema.define(:version => 20120309032305) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -20,5 +20,39 @@ ActiveRecord::Schema.define(:version => 20120129223811) do
     t.datetime "updated_at",   :null => false
     t.string   "fbid"
   end
+
+  create_table "pages", :force => true do |t|
+    t.string   "facebook_id"
+    t.string   "name"
+    t.string   "photo_url"
+    t.string   "username"
+    t.boolean  "can_post"
+    t.integer  "like_count"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "posts", :force => true do |t|
+    t.integer  "page_id"
+    t.string   "facebook_id"
+    t.string   "from_name"
+    t.string   "from_id"
+    t.string   "message"
+    t.string   "type"
+    t.datetime "created_time"
+    t.string   "photo_url"
+    t.string   "link_url"
+    t.string   "link_name"
+    t.string   "link_caption"
+    t.string   "link_desc"
+    t.string   "video_url"
+    t.integer  "like_count"
+    t.integer  "comment_count"
+    t.integer  "share_count"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "posts", ["page_id"], :name => "index_posts_on_page_id"
 
 end

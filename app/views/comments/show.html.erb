@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Post:</b>
+  <%= @comment.post_id %>
+</p>
+
+<p>
+  <b>Facebook:</b>
+  <%= @comment.facebook_id %>
+</p>
+
+<p>
+  <b>From name:</b>
+  <%= @comment.from_name %>
+</p>
+
+<p>
+  <b>From:</b>
+  <%= @comment.from_id %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @comment.message %>
+</p>
+
+<p>
+  <b>Created time:</b>
+  <%= @comment.created_time %>
+</p>
+
+<p>
+  <b>Like count:</b>
+  <%= @comment.like_count %>
+</p>
+
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

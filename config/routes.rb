@@ -1,4 +1,8 @@
 Walltriage::Application.routes.draw do
+  resources :comments
+
+  resources :posts
+
   resources :pages
 
   resources :access_tokens do

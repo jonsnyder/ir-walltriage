@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  post_id: 
+  facebook_id: MyString
+  from_name: MyString
+  from_id: MyString
+  message: MyString
+  created_time: 2012-03-08 20:29:15
+  like_count: 1
+
+two:
+  post_id: 
+  facebook_id: MyString
+  from_name: MyString
+  from_id: MyString
+  message: MyString
+  created_time: 2012-03-08 20:29:15
+  like_count: 1

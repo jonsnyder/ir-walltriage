@@ -1,0 +1,85 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Page:</b>
+  <%= @post.page %>
+</p>
+
+<p>
+  <b>Facebook:</b>
+  <%= @post.facebook_id %>
+</p>
+
+<p>
+  <b>From name:</b>
+  <%= @post.from_name %>
+</p>
+
+<p>
+  <b>From:</b>
+  <%= @post.from_id %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @post.message %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @post.type %>
+</p>
+
+<p>
+  <b>Created time:</b>
+  <%= @post.created_time %>
+</p>
+
+<p>
+  <b>Photo url:</b>
+  <%= @post.photo_url %>
+</p>
+
+<p>
+  <b>Link url:</b>
+  <%= @post.link_url %>
+</p>
+
+<p>
+  <b>Link name:</b>
+  <%= @post.link_name %>
+</p>
+
+<p>
+  <b>Link caption:</b>
+  <%= @post.link_caption %>
+</p>
+
+<p>
+  <b>Link desc:</b>
+  <%= @post.link_desc %>
+</p>
+
+<p>
+  <b>Video url:</b>
+  <%= @post.video_url %>
+</p>
+
+<p>
+  <b>Like count:</b>
+  <%= @post.like_count %>
+</p>
+
+<p>
+  <b>Comment count:</b>
+  <%= @post.comment_count %>
+</p>
+
+<p>
+  <b>Share count:</b>
+  <%= @post.share_count %>
+</p>
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
