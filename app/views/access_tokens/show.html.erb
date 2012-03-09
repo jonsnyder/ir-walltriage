@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Facebook ID:</b>
+  <%= @access_token.fbid %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @access_token.name %>
+</p>
+
+<p>
+  <b>Access token:</b>
+  <%= @access_token.access_token %>
+</p>
+
+
+<%= link_to 'Edit', edit_access_token_path(@access_token) %> |
+<%= link_to 'Back', access_tokens_path %>

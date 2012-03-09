@@ -1,0 +1,12 @@
+development:
+  encoding:  utf8
+  adapter:   mysql2
+  database:  walltriage
+  host:      localhost
+  reconnect: true
+  socket:    /tmp/mysql.sock
+  username:  root
+
+test:
+  database: walltriage_test
+
