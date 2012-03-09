@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :pages
+
   resources :access_tokens do
     collection do
       get 'fb'

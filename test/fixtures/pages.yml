@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  facebook_id: MyString
+  name: MyString
+  photo_url: MyString
+  username: MyString
+  can_post: false
+  like_count: 1
+
+two:
+  facebook_id: MyString
+  name: MyString
+  photo_url: MyString
+  username: MyString
+  can_post: false
+  like_count: 1
