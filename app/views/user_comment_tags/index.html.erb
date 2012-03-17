@@ -1,0 +1,27 @@
+<h1>Listing user_comment_tags</h1>
+
+<table>
+  <tr>
+    <th>Post</th>
+    <th>Access token</th>
+    <th>Tag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_comment_tags.each do |user_comment_tag| %>
+  <tr>
+    <td><%= user_comment_tag.post %></td>
+    <td><%= user_comment_tag.access_token %></td>
+    <td><%= user_comment_tag.tag %></td>
+    <td><%= link_to 'Show', user_comment_tag %></td>
+    <td><%= link_to 'Edit', edit_user_comment_tag_path(user_comment_tag) %></td>
+    <td><%= link_to 'Destroy', user_comment_tag, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User comment tag', new_user_comment_tag_path %>

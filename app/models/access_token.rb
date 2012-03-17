@@ -10,6 +10,10 @@ class AccessToken < ActiveRecord::Base
     Koala::Facebook::API.new( access_token)
   end
 
+  def is_superuser
+    return fbid == "73001969"
+  end
+  
   def self.graph
     AccessToken.offset(rand(AccessToken.count)).first.graph
   end

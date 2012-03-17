@@ -1,0 +1,2 @@
+module UserCommentTagsHelper
+end

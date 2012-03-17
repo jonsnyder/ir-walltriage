@@ -101,10 +101,18 @@ class AccessTokensController < ApplicationController
 
     @access_token.save!
 
+    session[:user_id] = @access_token.id
+
     respond_to do |format|
-      format.html { redirect_to @access_token, notice: "Welcome, #{@access_token.name}" }
+      format.html { redirect_to datasets_path, notice: "Welcome, #{@access_token.name}" }
       format.json { head :no_content }
     end
+  end
+
+  def log_out
+    session[:user_id] = nil
+
+    redirect_to home_index_url, notice: "You have been logged out."
   end
     
 end

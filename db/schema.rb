@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120311222247) do
+ActiveRecord::Schema.define(:version => 20120317053134) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -31,9 +31,19 @@ ActiveRecord::Schema.define(:version => 20120311222247) do
     t.integer  "like_count"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
+    t.integer  "dataset_id"
   end
 
+  add_index "comments", ["dataset_id"], :name => "index_comments_on_dataset_id"
   add_index "comments", ["post_id"], :name => "index_comments_on_post_id_id"
+
+  create_table "datasets", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.boolean  "is_user_dataset"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "pages", :force => true do |t|
     t.string   "facebook_id"
@@ -65,8 +75,10 @@ ActiveRecord::Schema.define(:version => 20120311222247) do
     t.integer  "share_count"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+    t.integer  "dataset_id"
   end
 
+  add_index "posts", ["dataset_id"], :name => "index_posts_on_dataset_id"
   add_index "posts", ["page_id"], :name => "index_posts_on_page_id"
 
 end

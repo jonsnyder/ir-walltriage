@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <% if @user.nil? -%>
+    <span><%= link_to 'Log in', @oauth.url_for_oauth_code -%></span>
+  <% else -%>
+    <span><%= @user.name -%></span> <span><%= link_to 'Log out', log_out_access_tokens_path -%></span>
+  <% end -%>
+  
 <%= yield %>
 
 </body>

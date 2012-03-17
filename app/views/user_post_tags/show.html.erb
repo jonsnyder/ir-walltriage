@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Post:</b>
+  <%= @user_post_tag.post %>
+</p>
+
+<p>
+  <b>Access token:</b>
+  <%= @user_post_tag.access_token %>
+</p>
+
+<p>
+  <b>Tag:</b>
+  <%= @user_post_tag.tag %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_post_tag_path(@user_post_tag) %> |
+<%= link_to 'Back', user_post_tags_path %>

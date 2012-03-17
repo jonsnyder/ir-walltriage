@@ -1,6 +1,9 @@
 class Post < ActiveRecord::Base
   belongs_to :page
-  has_many :comments
+  belongs_to :dataset
+  has_many :comments, :dependent => :destroy
+
+  scope :no_dataset, where( :dataset_id => nil)
 
   self.inheritance_column = 'class'
   
@@ -32,7 +35,7 @@ class Post < ActiveRecord::Base
 private
   
   def load_comment_from_facebook( comment)
-    c = Comment.find_by_facebook_id( comment["id"])
+    c = Comment.no_dataset.find_by_facebook_id( comment["id"])
     if c.nil?
       c = comments.new
     end

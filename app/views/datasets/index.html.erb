@@ -1,26 +1,15 @@
-<h1>Listing datasets</h1>
+<p id="notice"><%= notice %></p>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Is user dataset</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h1>Available Datasets Ready for Tagging</h1>
 
 <% @datasets.each do |dataset| %>
-  <tr>
-    <td><%= dataset.name %></td>
-    <td><%= dataset.description %></td>
-    <td><%= dataset.is_user_dataset %></td>
-    <td><%= link_to 'Show', dataset %></td>
-    <td><%= link_to 'Edit', edit_dataset_path(dataset) %></td>
-    <td><%= link_to 'Destroy', dataset, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+  <p>
+    <h4><%= link_to dataset.name, posts_url(:dataset => dataset.id) %></h4>
+    <%= dataset.description -%>
+    <%= link_to 'Edit', edit_dataset_path(dataset) %>
+    <%= link_to 'Destroy', dataset, confirm: 'Are you sure?', method: :delete %>
+  </p>
 <% end %>
-</table>
 
 <br />
 

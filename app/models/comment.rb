@@ -1,5 +1,8 @@
 class Comment < ActiveRecord::Base
   belongs_to :post
+  belongs_to :dataset
+
+  scope :no_dataset, where( :dataset_id => nil)
 
   def load_from_facebook( comment)
     self.facebook_id = comment["id"]

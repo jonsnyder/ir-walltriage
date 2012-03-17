@@ -23,7 +23,7 @@ class Page < ActiveRecord::Base
     end
     while i > 0
       wall_posts.each do |post|
-        p = Post.find_by_facebook_id( post["id"])
+        p = Post.no_dataset.find_by_facebook_id( post["id"])
         if p.nil?
           p = posts.new
         end

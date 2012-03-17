@@ -1,8 +1,11 @@
 class DatasetsController < ApplicationController
+  include IsLoggedIn
+
   # GET /datasets
   # GET /datasets.json
   def index
-    @datasets = Dataset.all
+    
+    @datasets = Dataset.where(:is_user_dataset => true)
 
     respond_to do |format|
       format.html # index.html.erb

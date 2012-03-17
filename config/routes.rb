@@ -1,4 +1,8 @@
 Walltriage::Application.routes.draw do
+  resources :user_comment_tags
+
+  resources :user_post_tags
+
   resources :datasets
 
   resources :comments
@@ -10,6 +14,7 @@ Walltriage::Application.routes.draw do
   resources :access_tokens do
     collection do
       get 'fb'
+      get 'log_out'
     end
   end
 
