@@ -1,0 +1,9 @@
+
+<div class="post">
+  <img src="http://graph.facebook.com/<%= post.from_id -%>/picture" />
+  <span><%= post.from_name -%></span>
+  <p><%= post.message -%></p>
+  <% post.comments.each do |comment| -%>
+    <%= render :partial => 'shared/comment', :locals => { :comment => comment} -%>
+  <% end %>
+</div>

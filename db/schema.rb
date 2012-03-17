@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120309032305) do
+ActiveRecord::Schema.define(:version => 20120311222247) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,20 @@ ActiveRecord::Schema.define(:version => 20120309032305) do
     t.datetime "updated_at",   :null => false
     t.string   "fbid"
   end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "facebook_id"
+    t.string   "from_name"
+    t.string   "from_id"
+    t.string   "message",      :limit => 5000
+    t.datetime "created_time"
+    t.integer  "like_count"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
+
+  add_index "comments", ["post_id"], :name => "index_comments_on_post_id_id"
 
   create_table "pages", :force => true do |t|
     t.string   "facebook_id"
@@ -37,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20120309032305) do
     t.string   "facebook_id"
     t.string   "from_name"
     t.string   "from_id"
-    t.string   "message"
+    t.string   "message",       :limit => 5000
     t.string   "type"
     t.datetime "created_time"
     t.string   "photo_url"
@@ -49,8 +63,8 @@ ActiveRecord::Schema.define(:version => 20120309032305) do
     t.integer  "like_count"
     t.integer  "comment_count"
     t.integer  "share_count"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "posts", ["page_id"], :name => "index_posts_on_page_id"

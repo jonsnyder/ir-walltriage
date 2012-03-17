@@ -6,9 +6,11 @@ class AccessToken < ActiveRecord::Base
     self.name = me["name"]
   end
   
-private
-
   def graph
     Koala::Facebook::API.new( access_token)
+  end
+
+  def self.graph
+    AccessToken.offset(rand(AccessToken.count)).first.graph
   end
 end

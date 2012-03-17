@@ -1,34 +1,8 @@
 <h1>Listing comments</h1>
 
-<table>
-  <tr>
-    <th>Post</th>
-    <th>Facebook</th>
-    <th>From name</th>
-    <th>From</th>
-    <th>Message</th>
-    <th>Created time</th>
-    <th>Like count</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @comments.each do |comment| %>
-  <tr>
-    <td><%= comment.post_id %></td>
-    <td><%= comment.facebook_id %></td>
-    <td><%= comment.from_name %></td>
-    <td><%= comment.from_id %></td>
-    <td><%= comment.message %></td>
-    <td><%= comment.created_time %></td>
-    <td><%= comment.like_count %></td>
-    <td><%= link_to 'Show', comment %></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <td><%= link_to 'Destroy', comment, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+  <%= render :partial => 'shared/comment', :locals => { :comment => comment} -%>
 <% end %>
-</table>
 
 <br />
 

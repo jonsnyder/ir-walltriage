@@ -1,4 +1,7 @@
 class AccessTokensController < ApplicationController
+
+  include HasOauth
+  
   # GET /access_tokens
   # GET /access_tokens.json
   def index
@@ -99,16 +102,9 @@ class AccessTokensController < ApplicationController
     @access_token.save!
 
     respond_to do |format|
-      format.html { redirect_to @access_token, notice: 'Access token was successfully created/updated.' }
+      format.html { redirect_to @access_token, notice: "Welcome, #{@access_token.name}" }
       format.json { head :no_content }
     end
-  end
-    
-private
-  def oauth
-    @oauth = Koala::Facebook::OAuth.new( "316562328389648",
-                                         "9124392f4ab512679531588a01571b0f",
-                                         "http://walltriage.local/access_tokens/fb")
   end
     
 end

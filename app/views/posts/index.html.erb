@@ -1,52 +1,8 @@
 <h1>Listing posts</h1>
 
-<table>
-  <tr>
-    <th>Page</th>
-    <th>Facebook</th>
-    <th>From name</th>
-    <th>From</th>
-    <th>Message</th>
-    <th>Type</th>
-    <th>Created time</th>
-    <th>Photo url</th>
-    <th>Link url</th>
-    <th>Link name</th>
-    <th>Link caption</th>
-    <th>Link desc</th>
-    <th>Video url</th>
-    <th>Like count</th>
-    <th>Comment count</th>
-    <th>Share count</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @posts.each do |post| %>
-  <tr>
-    <td><%= post.page %></td>
-    <td><%= post.facebook_id %></td>
-    <td><%= post.from_name %></td>
-    <td><%= post.from_id %></td>
-    <td><%= post.message %></td>
-    <td><%= post.type %></td>
-    <td><%= post.created_time %></td>
-    <td><%= post.photo_url %></td>
-    <td><%= post.link_url %></td>
-    <td><%= post.link_name %></td>
-    <td><%= post.link_caption %></td>
-    <td><%= post.link_desc %></td>
-    <td><%= post.video_url %></td>
-    <td><%= post.like_count %></td>
-    <td><%= post.comment_count %></td>
-    <td><%= post.share_count %></td>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
-    <td><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+  <%= render :partial => 'shared/post', :locals => { :post => post } -%>
 <% end %>
-</table>
 
 <br />
 

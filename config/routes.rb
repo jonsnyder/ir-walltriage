@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :datasets
+
   resources :comments
 
   resources :posts

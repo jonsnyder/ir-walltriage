@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  is_user_dataset: false
+
+two:
+  name: MyString
+  description: MyString
+  is_user_dataset: false
