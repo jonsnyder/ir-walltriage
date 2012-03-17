@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  include IsLoggedIn
+  
   # GET /posts
   # GET /posts.json
   def index

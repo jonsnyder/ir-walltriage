@@ -2,6 +2,8 @@ class Post < ActiveRecord::Base
   belongs_to :page
   belongs_to :dataset
   has_many :comments, :dependent => :destroy
+  has_many :user_post_tags
+  has_many :user_comment_tags, :through => :comments
 
   scope :no_dataset, where( :dataset_id => nil)
 
@@ -31,11 +33,10 @@ class Post < ActiveRecord::Base
     end
   end
 
-
 private
   
   def load_comment_from_facebook( comment)
-    c = Comment.no_dataset.find_by_facebook_id( comment["id"])
+    c = comments.find_by_facebook_id( comment["id"])
     if c.nil?
       c = comments.new
     end

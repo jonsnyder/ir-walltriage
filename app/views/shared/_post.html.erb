@@ -1,6 +1,9 @@
 
 <div class="post">
   <img src="http://graph.facebook.com/<%= post.from_id -%>/picture" />
+  <form action="/" method="post" id="post_<%= post.id %>" class="tagedit" tab_index="1">
+    <input type="text" name="tag[]" value=""/>
+  </form>
   <span><%= post.from_name -%></span>
   <p><%= post.message -%></p>
   <% post.comments.each do |comment| -%>

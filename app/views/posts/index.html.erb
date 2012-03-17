@@ -7,3 +7,11 @@
 <br />
 
 <%= link_to 'New Post', new_post_path %>
+
+<% content_for :head do %>
+  <script type="text/javascript">
+    jQuery( function() {
+      wt.posts.on_ready( {"foo": 1, "bar": 2});
+    });
+  </script>
+<% end %>
