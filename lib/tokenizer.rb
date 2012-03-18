@@ -1,6 +1,10 @@
 module Tokenizer
 
   def self.scan( content)
+    if content.nil?
+      return
+    end
+
     content.gsub!(/\.\.\./,' ... ')
     content.gsub!(/(\w\w)-(\w\w)/, "\\1 - \\2")
     content.scan(/\$?\b\S+\b%?|\.\.\.|[?!.]/) do |word|
