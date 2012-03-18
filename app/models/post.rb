@@ -45,7 +45,18 @@ class Post < ActiveRecord::Base
   end
 
   def to_mallet
-    id.to_s + " post " + message.gsub(/\s/, " ")
+    ret = id.to_s + " en"
+
+    Tokenizer.scan( message) do |word|
+      ret += " " + word
+    end
+    comments.each do |comment|
+      Tokenizer.scan( comment.message) do |word|
+        ret += " " + word
+      end
+    end
+    
+    ret
   end
   
 private
