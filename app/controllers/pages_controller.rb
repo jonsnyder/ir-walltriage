@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  include IsLoggedIn
+  
   # GET /pages
   # GET /pages.json
   def index
