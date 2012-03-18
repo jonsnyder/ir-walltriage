@@ -14,5 +14,5 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery/jquery.autoGrowInput
-//= require jquery/jquery.tagedit
+//= require jquery/jquery.tagsinput
 //= require_tree .

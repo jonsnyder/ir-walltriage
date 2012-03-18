@@ -1,9 +1,12 @@
 
 <div class="post">
   <img src="http://graph.facebook.com/<%= post.from_id -%>/picture" />
-  <form action="/" method="post" id="post_<%= post.id %>" class="tagedit" tab_index="1">
-    <input type="text" name="tag[]" value=""/>
-  </form>
+  <div id="container-<%= post.id %>"  class="tag-container">
+    <input type="text" id="<%= post.id %>" name="tags" value="<%= post.tags_csv( @user) -%>" class="tags"/>
+    <img class="spinner" src="/assets/ajax-loader.gif" style="display:none;"/>
+    <span class="saved" style="display:none;">Saved</span>
+    <span class="error" style="display:none;">Error</span>
+  </div>
   <span><%= post.from_name -%></span>
   <p><%= post.message -%></p>
   <% post.comments.each do |comment| -%>

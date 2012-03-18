@@ -33,6 +33,21 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def update_tags( tags, user)
+    self.user_post_tags.user( user).destroy_all
+    tags.each do |tag|
+      self.user_post_tags.user( user).create( :tag => tag)
+    end    
+  end
+
+  def tags_csv( user)
+    user_post_tags.user( user).map(&:tag).sort.join(',')
+  end
+
+  def to_mallet
+    id.to_s + " post " + message.gsub(/\s/, " ")
+  end
+  
 private
   
   def load_comment_from_facebook( comment)

@@ -6,6 +6,7 @@
     clear: both;
     margin: 8px 0px;
     overflow: hidden;
+    width: 740px;
 }
 
 .post > img {
@@ -20,7 +21,7 @@
 }
 
 .post > p {
-    margin: 0px 430px 0px 55px;
+    margin: 0px 322px 0px 55px;
 }
 
 .post > div {
@@ -28,7 +29,8 @@
     padding-top: 8px;
 }
 
-.post .tagedit {
-    width: 420px;
+.post .tag-container {
+    width: 312px;
     float: right;
+    margin: 0px;
 }
