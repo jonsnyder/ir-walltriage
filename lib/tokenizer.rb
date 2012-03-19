@@ -5,23 +5,23 @@ module Tokenizer
       return
     end
 
-    content.gsub!(/\.\.\./,' ... ')
+    content.gsub!(/\.\.+/,' ')
     content.gsub!(/(\w\w)-(\w\w)/, "\\1 - \\2")
-    content.scan(/\$?\b\S+\b%?|\.\.\.|[?!.]/) do |word|
+    content.scan(/\$?\b\S+\b%?|[?!]/) do |word|
         case word
         when /^https?:\/\/|^www\.|\.com/
-          yield "_url"
+          yield "[url]"
         when /^\$/
-          yield "_money"
+          yield "[money]"
         when /\d\.\d\d$/
-          yield "_money"
+          yield "[money]"
         when /^[\d]+(\.\d+)?%$/
-          yield "_percent"
+          yield "[percent]"
         when /^[\d]+(\.\d+)?$/
-          yield "_number"
+          yield "[number]"
         else
-          word = word.gsub(/^_+/,"")
           word = word.downcase
+          word = word.gsub(/'/,'')
           yield word
         end
     end
