@@ -45,7 +45,7 @@ class Post < ActiveRecord::Base
   end
 
   def to_mallet
-    ret = id.to_s + " en"
+    ret = id.to_s + created_time.strftime("_%Y%m%d") + " en"
 
     Tokenizer.scan( message) do |word|
       ret += " " + word

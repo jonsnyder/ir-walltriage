@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   include IsLoggedIn
   
   def index
-    @posts = Post.where(:dataset_id => params[:dataset])
+    @posts = Post.where(:dataset_id => params[:dataset]).order("created_time")
     respond_to do |format|
       format.html
       format.mallet { render mallet: @posts }
