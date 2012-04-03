@@ -4,13 +4,20 @@ class Post < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :user_post_tags
   has_many :user_comment_tags, :through => :comments
-
+  
+  scope :not_authored_by, lambda { |id| where('posts.from_id != ?', id) }
   scope :no_dataset, where( :dataset_id => nil)
 
   self.inheritance_column = 'class'
+
+  def update_from_facebook
+    post = graph.get_object( facebook_id)
+    if post
+      load_from_facebook( post)
+    end
+  end
   
   def load_from_facebook( post)
-    puts post
     self.facebook_id = post["id"]
     self.from_name = post["from"]["name"]
     self.from_id = post["from"]["id"]
@@ -24,12 +31,19 @@ class Post < ActiveRecord::Base
     self.link_desc = post["description"]
     self.video_url = post["source"]
     self.like_count = post["likes"] ? post["likes"]["count"] : 0
-    self.comment_count = post["comments"] ? post["comments"]["count"] : 0
     self.share_count = post["shares"] ? post["shares"]["count"] : 0
-    if post["comments"] && post["comments"]["data"]
-      post["comments"]["data"].each do |comment|
-        load_comment_from_facebook( comment)
+    if post["comments"]
+      self.comment_count = post["comments"]["count"]
+      if post["comments"]["data"]
+        post["comments"]["data"].each do |comment|
+          load_comment_from_facebook( comment)
+        end
+        if comment_count > post["comments"]["data"].length
+          fetch_comments
+        end
       end
+    else
+      self.comment_count = 0
     end
   end
 
@@ -57,6 +71,22 @@ class Post < ActiveRecord::Base
     end
     
     ret
+  end
+
+  def fetch_comments
+    comments = graph.get_connections( facebook_id, 'comments')
+    
+    while comments && comments.length > 0
+      comments.each do |comment|
+        load_comment_from_facebook( comment)
+      end
+
+      comments = comments.next_page
+    end
+  end
+
+  def graph
+    AccessToken.graph
   end
   
 private

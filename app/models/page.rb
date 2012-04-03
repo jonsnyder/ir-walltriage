@@ -4,6 +4,10 @@ class Page < ActiveRecord::Base
   
   before_create :get_page_info_from_facebook
 
+  def posts_not_by_page
+    posts.not_authored_by( facebook_id)
+  end
+  
   def get_page_info_from_facebook
     page = graph.get_object( username)
     self.facebook_id = page["id"]
@@ -37,7 +41,9 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def update_comments()
-
+  def update_posts
+    posts.no_dataset.each do |post|
+      post.update_from_facebook
+    end
   end
 end
