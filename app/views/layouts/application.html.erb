@@ -16,7 +16,7 @@
     <% else -%>
       <%= link_to 'Instructions', home_instructions_path -%>
       <%= link_to 'Tagging', datasets_path -%>
-      <span id="user_header"><%= @user.name -%><%= link_to 'Log out', log_out_access_tokens_path -%></span>
+      <span id="user_header"><%= @user.name -%><%= link_to 'Log out', access_tokens_log_out_path -%></span>
     <% end -%>
   </div>
 

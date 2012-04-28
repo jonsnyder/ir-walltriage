@@ -1,4 +1,6 @@
 class UserPostTagsController < ApplicationController
+  include IsLoggedIn
+  
   # GET /user_post_tags
   # GET /user_post_tags.json
   def index
@@ -56,27 +58,39 @@ class UserPostTagsController < ApplicationController
   # PUT /user_post_tags/1
   # PUT /user_post_tags/1.json
   def update
-    @user_post_tag = UserPostTag.find(params[:id])
+    @user_post_tags = UserPostTag.includes(:post)
+      .where( :access_token_id => @user.id, :tag => params[:id],
+              :posts => { :dataset_id => params[:dataset]})
+    @user_post_tags.each do |tag|
+      tag.tag = params[:tag]
+      tag.save!
+    end
+
+    while (posts = UserPostTag.includes(:post).
+        where( :access_token_id => @user.id, :posts => { :dataset_id => params[:dataset]}).
+        group("post_id, tag").having( "count(*) > 1").all).size > 0
+      posts.each do |post|
+        post.destroy
+      end
+    end
 
     respond_to do |format|
-      if @user_post_tag.update_attributes(params[:user_post_tag])
-        format.html { redirect_to @user_post_tag, notice: 'User post tag was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user_post_tag.errors, status: :unprocessable_entity }
-      end
+      tags = UserPostTag.user( @user).dataset( params[:dataset]).count(:group => 'user_post_tags.tag')
+      format.json { render :json => tags }
     end
   end
 
   # DELETE /user_post_tags/1
   # DELETE /user_post_tags/1.json
   def destroy
-    @user_post_tag = UserPostTag.find(params[:id])
-    @user_post_tag.destroy
+    user_post_tags = UserPostTag.includes(:post)
+      .where( :access_token_id => @user.id, :tag => params[:id],
+              :posts => {:dataset_id => params[:dataset]})
+    user_post_tags.each do |tag|
+      tag.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to user_post_tags_url }
       format.json { head :no_content }
     end
   end

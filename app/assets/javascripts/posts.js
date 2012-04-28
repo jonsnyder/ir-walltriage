@@ -27,6 +27,7 @@ wt.posts = function($) {
   var model = {};
   var pub = {};
   var params;
+  var bulk_change = false;
 
   
   model.requests = ko.observableArray();
@@ -54,7 +55,6 @@ wt.posts = function($) {
 
   Request.prototype.success = function( data) {
     this.waiting( false);
-    this.success( true);
     if( $.isFunction( this.params.success)) {
       if( this.params.context) {
         this.params.success.call( this.params.context, data);
@@ -64,7 +64,6 @@ wt.posts = function($) {
     }
   };    
 
-  
   var Tag = function( name, count) {
     this.name = ko.observable( name);
     this.count = ko.observable( count);
@@ -74,29 +73,52 @@ wt.posts = function($) {
   };
 
   Tag.prototype.rename = function() {
+    var old_name = this.name();
     var new_name = prompt('New Tag Name', this.name());
     var request = new Request(
       "Renaming tag...",
       "An error occurred.",
       {
-        url: '/tags/' + this.name() + '.json?dataset=' + params.dataset,
+        url: '/user_post_tags/' + old_name + '.json?dataset=' + params.dataset,
         type: 'PUT',
-        data: { tag: this.name() },
-        success: refreshTagList
+        data: { tag: new_name },
+        success: function( tags) {
+          refreshTagList( tags);
+        }
       }
     );
+    bulk_change = true;
+    $.each( $('.tags'), function() {
+      var input = $(this);
+      if( input.tagExist( old_name)) {
+        input.removeTag( old_name);
+        if( !input.tagExist( new_name)) {
+          input.addTag( new_name);
+        }
+      }
+    });
+    bulk_change = false;
     this.name( new_name);
   };
 
   Tag.prototype.remove = function() {
+    var old_name = this.name();
     var request = new Request(
       "Removing tag...",
       "An error occurred.",
       {
-        url: '/tags/' + this.name() + '.json?dataset=' + params.dataset,
+        url: '/user_post_tags/' + old_name + '.json?dataset=' + params.dataset,
         type: 'DELETE'
       }
     );
+    bulk_change = true;
+    $.each( $('.tags'), function() {
+      var input = $(this);
+      if( input.tagExist( old_name)) {
+        input.removeTag( old_name);
+      }
+    });
+    bulk_change = false;
     model.tags.remove( this);
   };
 
@@ -104,6 +126,9 @@ wt.posts = function($) {
   var tag_index = {};
   model.tags = ko.observableArray();
   function refreshTagList( tags) {
+    tag_names.remove(function() { return true;});
+    tag_index = {};
+    model.tags.remove(function() { return true;});
     $.each( tags, function( name, count) {
       var tag = new Tag( name, count);
       model.tags.push( tag);
@@ -164,6 +189,9 @@ wt.posts = function($) {
             delay: 0
           },
           onAddTag: function( name) {
+            if( bulk_change) {
+              return;
+            }
             save_tags();
             if( tag_index.hasOwnProperty( name) ) {
               tag_index[ name].count( tag_index[ name].count() + 1);
@@ -175,6 +203,9 @@ wt.posts = function($) {
             }
           },
           onRemoveTag: function( name) {
+            if( bulk_change) {
+              return;
+            }
             save_tags();
             if( tag_index.hasOwnProperty( name)) {
               if( tag_index[ name].count() <= 1) {

@@ -13,7 +13,8 @@
   <div data-bind="visible: tags().length == 0">You have not tagged any posts yet</div>
 </div>
 
-<form id="filters" action="<%= url_for( @params) -%>" method="GET">
+<form id="filters" action="<%= url_for( params) -%>" method="GET">
+  <input type="hidden" name="dataset" value="<%= params[:dataset] -%>"></input>
   <h2>Filters</h2>
   <label>Tag Filter</label>
   <div>
