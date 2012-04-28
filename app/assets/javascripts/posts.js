@@ -9,10 +9,8 @@ wt.insert = function(array, item, comparator) {
   var low = 0, high = real_array.length - 1,
       i, comparison;
   comparator = comparator || wt.compare;
-  console.log( high);
   while (low <= high) {
     i = Math.floor((low + high) / 2);
-    console.log( i);
     comparison = comparator(real_array[i], item);
     if (comparison < 0) { low = i + 1; continue; };
     if (comparison > 0) { high = i - 1; continue; };
@@ -163,8 +161,7 @@ wt.posts = function($) {
           autocomplete_url: tag_names_autocomplete,
           autocomplete: {
             autoFocus: true,
-            delay: 0,
-            minLength: 0
+            delay: 0
           },
           onAddTag: function( name) {
             save_tags();
@@ -192,20 +189,6 @@ wt.posts = function($) {
         });
     });
 
-
-      /*each( function() {
-      $(this).find('input').tagedit( {
-        autocompleteOptions: {
-          source: tags,
-          change: function( event, ui) {
-            console.log( 'autocomplete changed');
-          }
-          /*function( request, response) {
-            return $.ui.autocomplete.filter( [request.term] + tags, request.term);
-            }
-        }
-      });
-});*/
 
   };
 

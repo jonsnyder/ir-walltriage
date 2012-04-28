@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  include HasOauth
+  include IsLoggedIn
+  before_filter :is_logged_in, :only => [:instructions]
   
   def index
     @oauth = oauth
@@ -8,4 +9,8 @@ class HomeController < ApplicationController
       format.html # index.html.erb
     end
   end
+
+  def instructions
+  end
+
 end

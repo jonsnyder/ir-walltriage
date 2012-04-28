@@ -10,7 +10,9 @@ class DatasetsController < ApplicationController
     @datasets = Dataset.where(:is_user_dataset => true)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {
+        redirect_to posts_url( :dataset => @datasets.first.id ) if @datasets.count == 1 && !@user.is_superuser
+      }
       format.json { render json: @datasets }
     end
   end

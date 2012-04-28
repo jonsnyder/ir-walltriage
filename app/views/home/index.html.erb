@@ -1,15 +1,16 @@
 <p id="notice"><%= notice %></p>
 
-<h3>Project Website for:</h3>
-<h1>Topic Modeling from User Feedback on Facebook Brand Pages</h1>
-<h3>Jon Snyder</h3>
+<h2>Jon Snyder's Information Retrieval Project Website</h2>
+<p>"Topic Modeling from User Feedback on Facebook Brand Pages"</p>
+
+<h2>Project Description</h2>
+
+<p>This project seeks to extract some useful information available in comments and posts on Facebook using automated methods.  Manual analysis becomes expensive to scale to the size of the available information.  In order to evaluate the effectiveness of automated methods, a hand tagged sample is needed.  This website was created to facilitate the generation of a hand tagged database.</p>
 
 <% if @user.nil? -%>
-  <p>To help provide a gold standard dataset please <%= link_to 'login to Facebook', @oauth.url_for_oauth_code -%>.</p>
+  <p>To help provide a hand tagged dataset please <%= link_to 'login to Facebook', @oauth.url_for_oauth_code -%>.</p>
 <% else -%>
-  <p>Thank you for helping with my project.</p>
-  <p>This dataset will be used to gauge the performance of the automated Topic Modeling algorithms</p>
+  <p><%= link_to 'Get started by reading the instructions.', home_instructions_path -%>
 <% end -%>
+<p><b>Thank you for helping with my project.</b></p>
 
-
-<%= link_to "Access Tokens", access_tokens_path %>

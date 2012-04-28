@@ -104,7 +104,7 @@ class AccessTokensController < ApplicationController
     session[:user_id] = @access_token.id
 
     respond_to do |format|
-      format.html { redirect_to datasets_path, notice: "Welcome, #{@access_token.name}" }
+      format.html { redirect_to home_instructions_path, notice: "Welcome, #{@access_token.name}" }
       format.json { head :no_content }
     end
   end

@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Available Datasets Ready for Tagging</h1>
+<h2>Datasets</h2>
 
 <% @datasets.each do |dataset| %>
   <p>
-    <h4><%= link_to dataset.name, posts_url(:dataset => dataset.id) %></h4>
+    <label><%= link_to dataset.name, posts_url(:dataset => dataset.id) %></label>
     <%= dataset.description -%>
     <% if @user.is_superuser -%>
       <%= link_to 'Edit', edit_dataset_path(dataset) %>
@@ -13,7 +13,7 @@
   </p>
 <% end %>
 
-<br />
+
 <% if @user.is_superuser -%>
-  <%= link_to 'New Dataset', new_dataset_path %>
+  <p><%= link_to 'New Dataset', new_dataset_path %></p>
 <% end -%>

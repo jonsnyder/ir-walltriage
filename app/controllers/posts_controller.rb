@@ -21,9 +21,7 @@ class PostsController < ApplicationController
         @posts = @posts.page( params[:page])
         @tags = UserPostTag.user( @user).dataset( params[:dataset]).count(:group => 'user_post_tags.tag')
         # UserPostTag.find_by_sql('select tag, count(*) as c FROM user_post_tags JOIN posts on posts.id = user_post_tags.post_id GROUP BY tag').each { |tag| @tags[tag.tag] = tag.c}
-        
-
-                                                                                                                                                        }
+      }
       format.mallet { render mallet: @posts }
     end
   end
