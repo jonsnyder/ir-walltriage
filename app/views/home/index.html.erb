@@ -4,8 +4,12 @@
 <h1>Topic Modeling from User Feedback on Facebook Brand Pages</h1>
 <h3>Jon Snyder</h3>
 
-<p>To help provide a gold standard dataset please <%= link_to 'login to Facebook', @oauth.url_for_oauth_code -%>.</p>
-<p>This dataset will be used to gauge the performance of the automated Topic Modeling algorithms</p>
+<% if @user.nil? -%>
+  <p>To help provide a gold standard dataset please <%= link_to 'login to Facebook', @oauth.url_for_oauth_code -%>.</p>
+<% else -%>
+  <p>Thank you for helping with my project.</p>
+  <p>This dataset will be used to gauge the performance of the automated Topic Modeling algorithms</p>
+<% end -%>
 
 
 <%= link_to "Access Tokens", access_tokens_path %>

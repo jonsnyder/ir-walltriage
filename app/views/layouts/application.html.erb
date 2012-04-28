@@ -9,13 +9,19 @@
 </head>
 <body>
 
-  <% if @user.nil? -%>
-    <span><%= link_to 'Log in', @oauth.url_for_oauth_code -%></span>
-  <% else -%>
-    <span><%= @user.name -%></span> <span><%= link_to 'Log out', log_out_access_tokens_path -%></span>
-  <% end -%>
-  
-<%= yield %>
+  <div id="header">
+    <%= link_to 'Home', home_index_path -%>
+    <% if @user.nil? -%>
+      <span><%= link_to 'Log in', @oauth.url_for_oauth_code -%></span>
+    <% else -%>
+      <%= link_to 'Datasets', datasets_path -%>
+      <span id="user_header"><%= @user.name -%><%= link_to 'Log out', log_out_access_tokens_path -%></span>
+    <% end -%>
+  </div>
+
+  <div id="content">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

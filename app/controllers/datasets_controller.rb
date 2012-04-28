@@ -1,6 +1,8 @@
 class DatasetsController < ApplicationController
   include IsLoggedIn
 
+  before_filter :is_superuser, :except => [ :index, :show]
+  
   # GET /datasets
   # GET /datasets.json
   def index

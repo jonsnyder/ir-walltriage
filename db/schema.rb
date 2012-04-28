@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317165241) do
+ActiveRecord::Schema.define(:version => 20120416004641) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -24,17 +24,15 @@ ActiveRecord::Schema.define(:version => 20120317165241) do
   create_table "comments", :force => true do |t|
     t.integer  "post_id"
     t.string   "facebook_id"
-    t.string   "from_name"
+    t.text     "from_name"
     t.string   "from_id"
-    t.string   "message",      :limit => 5000
+    t.text     "message"
     t.datetime "created_time"
     t.integer  "like_count"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.integer  "dataset_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
-  add_index "comments", ["dataset_id"], :name => "index_comments_on_dataset_id"
   add_index "comments", ["post_id"], :name => "index_comments_on_post_id_id"
 
   create_table "datasets", :force => true do |t|
@@ -59,23 +57,24 @@ ActiveRecord::Schema.define(:version => 20120317165241) do
   create_table "posts", :force => true do |t|
     t.integer  "page_id"
     t.string   "facebook_id"
-    t.string   "from_name"
+    t.text     "from_name"
     t.string   "from_id"
-    t.string   "message",       :limit => 5000
+    t.text     "message"
     t.string   "type"
     t.datetime "created_time"
-    t.string   "photo_url"
-    t.string   "link_url"
-    t.string   "link_name"
-    t.string   "link_caption"
-    t.string   "link_desc"
-    t.string   "video_url"
+    t.text     "photo_url"
+    t.text     "link_url"
+    t.text     "link_name"
+    t.text     "link_caption"
+    t.text     "link_desc"
+    t.text     "video_url"
     t.integer  "like_count"
     t.integer  "comment_count"
     t.integer  "share_count"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "dataset_id"
+    t.text     "search"
   end
 
   add_index "posts", ["dataset_id"], :name => "index_posts_on_dataset_id"

@@ -1,0 +1,32 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+#content {
+    padding: 8px;
+}
+
+#header {
+    padding: 8px;
+    background-color: #C8E8EC;
+    border-bottom: 1px solid #D4E4E1;
+}
+
+#header a {
+    font-weight: bold;
+    color: black;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+#user_header {
+    float: right;
+}
+
+#user_header a {
+    font-weight: normal;
+    color: blue;
+    margin-left: 5px;
+    text-decoration: underline;
+}

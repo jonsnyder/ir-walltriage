@@ -6,11 +6,14 @@
   <p>
     <h4><%= link_to dataset.name, posts_url(:dataset => dataset.id) %></h4>
     <%= dataset.description -%>
-    <%= link_to 'Edit', edit_dataset_path(dataset) %>
-    <%= link_to 'Destroy', dataset, confirm: 'Are you sure?', method: :delete %>
+    <% if @user.is_superuser -%>
+      <%= link_to 'Edit', edit_dataset_path(dataset) %>
+      <%= link_to 'Destroy', dataset, confirm: 'Are you sure?', method: :delete %>
+    <% end -%>
   </p>
 <% end %>
 
 <br />
-
-<%= link_to 'New Dataset', new_dataset_path %>
+<% if @user.is_superuser -%>
+  <%= link_to 'New Dataset', new_dataset_path %>
+<% end -%>

@@ -15,4 +15,5 @@
 //= require jquery-ui
 //= require jquery/jquery.autoGrowInput
 //= require jquery/jquery.tagsinput
+//= require knockout-2.0.0
 //= require_tree .

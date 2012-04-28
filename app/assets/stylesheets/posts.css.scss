@@ -2,11 +2,28 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#filters > * {
+    display: block;
+    padding: 1px 10px;
+}
+
+h2, #filters > h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+}
+
+#filters > label {
+    font-weight: bold;
+}
+
 .post {
     clear: both;
     margin: 8px 0px;
     overflow: hidden;
     width: 740px;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 8px;
 }
 
 .post > img {
@@ -33,4 +50,80 @@
     width: 312px;
     float: right;
     margin: 0px;
+}
+
+div.tagsinput, #search_filter {
+    margin: 5px 0px;
+}
+
+div.tagsinput input, 
+div.tagsinput span.tag {
+    margin-bottom: 0px;
+    padding: 0px 5px 0px 5px;
+}
+
+table {
+    border-spacing: 0px;
+    border-left: 1px solid #D4E4E1;
+    border-top: 1px solid #D4E4E1;
+    border-right: 1px solid #D4E4E1;
+    width: 332px;
+}
+
+
+#filters > label {
+    border-top: 1px solid #C1DEE1;
+    border-left: 1px solid #D4E4E1;
+    border-right: 1px solid #D4E4E1;
+}
+
+table thead td, #filters > label {
+    font-weight: bold;
+    background-color: #C8E8EC;
+    border-bottom: 1px solid #C1DEE1;
+}
+#filters > div {
+    background-color: #F3F9FB;
+    border-left: 1px solid #D4E4E1;
+    border-right: 1px solid #D4E4E1;
+}
+#filters > div.button_row {
+    background-color: inherit;
+    border: none;
+    border-top: 1px solid #D4E4E1;
+    text-align: right;
+}
+
+table tbody td {
+    background-color: #F3F9FB;
+    border-bottom: 1px solid #D4E4E1;
+}
+
+table td.tag {
+    text-align: left;
+    padding-left: 10px;
+}
+table td.count {
+    text-align: right;
+    padding-right: 10px;
+}
+table td.action {
+    text-align: center;
+}
+
+#search_filter {
+    border: 1px solid #CCC;
+    padding: 5px;
+    line-height: 18px;
+    width: 300px;
+}
+
+#tags {
+    float: left;
+    margin-right: 20px;
+}
+
+#filters {
+    float: left;
+    
 }

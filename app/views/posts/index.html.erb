@@ -1,17 +1,77 @@
-<h1>Listing posts</h1>
+<div id="tags">
+  <h2>Tag Management</h2>
+  <table> 
+    <thead>
+      <tr>
+        <td class="tag">Tag</td>
+        <td class="count">Count</td>
+        <td class="action" colspan="2">Actions</td>
+      </tr>
+    </thead>
+    <tbody data-bind="template: {name: 'tag_template', foreach: tags}"></tbody>
+  </table>
+  <div data-bind="visible: tags().length == 0">You have not tagged any posts yet</div>
+</div>
 
+<form id="filters" action="<%= url_for( @params) -%>" method="GET">
+  <h2>Filters</h2>
+  <label>Tag Filter</label>
+  <div>
+    <input id="tags_filter_type_none" name="tags_filter_type" type="radio" value="none" data-bind="checked: tags_filter_type"/>
+    <label for="tags_filter_type_none">Show all posts.</label>
+  </div>
+  <div>
+    <input id="tags_filter_type_untagged" name="tags_filter_type" type="radio" value="untagged" data-bind="checked: tags_filter_type"/>
+    <label for="tags_filter_type_untagged">Show untagged posts.</label>
+  </div>
+  <div>
+    <input id="tags_filter_type_tagged" name="tags_filter_type" type="radio" value="all" data-bind="checked: tags_filter_type"/>
+    <label for="tags_filter_type_tagged">Show posts with all of these tags:</label>
+  </div>
+  <div data-bind="visible: tags_filter_type() == 'all'">
+    <input id="tags_filter_all" name="tags_filter_all" type="text" value="<%= params[:tags_filter_all] -%>"></input>
+  </div>
+  <div>
+    <input id="tags_filter_type_tagged" name="tags_filter_type" type="radio" value="any" data-bind="checked: tags_filter_type"/>
+    <label for="tags_filter_type_tagged">Show posts with any of these tags:</label>
+  </div>
+  <div data-bind="visible: tags_filter_type() == 'any'">
+    <input id="tags_filter_any" name="tags_filter_any" type="text" value="<%= params[:tags_filter_any] -%>"></input>
+  </div>
+  <label>Search Post Contents</label>
+  <div>
+    <input id="search_filter" name="search_filter" type="text" value="<%= params[:search_filter] -%>"></input>
+  </div>
+  <div class="button_row">
+    <input type="submit" value="Apply Filter(s)"></input>
+  </div>
+</form>
+
+<div style="clear:both;"></div>
+
+<h2>Posts</h2>
 <% @posts.each do |post| %>
   <%= render :partial => 'shared/post', :locals => { :post => post } -%>
 <% end %>
 
 <br />
 
-<%= link_to 'New Post', new_post_path %>
+<%= paginate @posts %>
 
+<script type="text/html" id="tag_template">
+    <tr>
+      <td class="tag" data-bind="text: name"></td>
+      <td class="count" data-bind="text: count"></td>
+      <td class="action"><button data-bind="click: rename">Rename</button></td>
+      <td class="action"><button data-bind="click: remove">Delete</button></td>
+    </tr>
+</script>
+  
+</script>
 <% content_for :head do %>
   <script type="text/javascript">
     jQuery( function() {
-      wt.posts.on_ready( {"foo": 1, "bar": 2});
-    });
+      wt.posts.on_ready( <%= @tags.to_json.html_safe -%>, <%= @base_params.to_json.html_safe -%> );   });
   </script>
+
 <% end %>

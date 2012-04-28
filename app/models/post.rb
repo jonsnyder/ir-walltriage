@@ -7,6 +7,9 @@ class Post < ActiveRecord::Base
   
   scope :not_authored_by, lambda { |id| where('posts.from_id != ?', id) }
   scope :no_dataset, where( :dataset_id => nil)
+  scope :tags_any, lambda { |tags| includes(:user_post_tags).where( tags.map { |tag| "user_post_tags.tag = '#{tag}'" }.join(" OR ") ) }
+  scope :tags_all, lambda { |tags| tags_any( tags).group( 'posts.id').having( 'count(*) = ?', tags.count) }
+  scope :search, lambda { |search| where( Enumerator.new { |y| Tokenizer.scan(search) { |term| y << term}}.map { |term| "posts.search LIKE '% " + term + " %'" }.join(" AND ")) } 
 
   self.inheritance_column = 'class'
 
@@ -54,13 +57,21 @@ class Post < ActiveRecord::Base
     end    
   end
 
+  def update_search
+    self.search = tokenized.strip
+    self.save!
+  end
+  
   def tags_csv( user)
     user_post_tags.user( user).map(&:tag).sort.join(',')
   end
 
   def to_mallet
-    ret = id.to_s + created_time.strftime("_%Y%m%d") + " en"
+    id.to_s + created_time.strftime("_%Y%m%d") + " en" + tokenized
+  end
 
+  def tokenized
+    ret = ""
     Tokenizer.scan( message) do |word|
       ret += " " + word
     end
