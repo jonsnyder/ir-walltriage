@@ -17,7 +17,10 @@ class PostsController < ApplicationController
 
     @base_params = params.select { |k,v| k != 'controller' && k != 'action' }
     respond_to do |format|
-      format.html { 
+      format.html {
+        @count = @posts.count
+        @start = ((1 || params[:page]).to_i - 1) * Kaminari.config.default_per_page + 1
+        @end = [@start + Kaminari.config.default_per_page - 1, @count].min
         @posts = @posts.page( params[:page])
         @tags = UserPostTag.user( @user).dataset( params[:dataset]).count(:group => 'user_post_tags.tag')
         # UserPostTag.find_by_sql('select tag, count(*) as c FROM user_post_tags JOIN posts on posts.id = user_post_tags.post_id GROUP BY tag').each { |tag| @tags[tag.tag] = tag.c}

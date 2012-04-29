@@ -51,6 +51,7 @@
 <div style="clear:both;"></div>
 
 <h2>Posts</h2>
+<h4>Showing posts <%= @start -%> to <%= @end -%> of <%= @count -%></h4>
 <% @posts.each do |post| %>
   <%= render :partial => 'shared/post', :locals => { :post => post } -%>
 <% end %>
