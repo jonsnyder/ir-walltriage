@@ -34,4 +34,8 @@ Walltriage::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.facebook_app_id = "319584004769885"
+  config.facebook_secret = "1add3acf680c2b3c76e8d17362245436"
+
 end

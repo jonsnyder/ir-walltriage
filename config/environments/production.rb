@@ -20,6 +20,9 @@ Walltriage::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.facebook_app_id = "316562328389648"
+  config.facebook_secret = "9124392f4ab512679531588a01571b0f"
+  
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
