@@ -7,6 +7,7 @@
     <label><%= link_to dataset.name, posts_url(:dataset => dataset.id) %></label>
     <%= dataset.description -%>
     <% if @user.is_superuser -%>
+      <b><%= dataset.is_user_dataset ? "User Dataset" : "System Dataset" -%></b>
       <%= link_to 'Edit', edit_dataset_path(dataset) %>
       <%= link_to 'Destroy', dataset, confirm: 'Are you sure?', method: :delete %>
     <% end -%>

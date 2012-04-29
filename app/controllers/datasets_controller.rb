@@ -6,8 +6,12 @@ class DatasetsController < ApplicationController
   # GET /datasets
   # GET /datasets.json
   def index
-    
-    @datasets = Dataset.where(:is_user_dataset => true)
+
+    if @user.is_superuser
+      @datasets = Dataset.all
+    else
+      @datasets = Dataset.where(:is_user_dataset => true)
+    end
 
     respond_to do |format|
       format.html {
