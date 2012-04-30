@@ -45,3 +45,4 @@ gem 'jquery-rails'
 
 gem 'koala'
 gem 'kaminari'
+gem 'open4'
