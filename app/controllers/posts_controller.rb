@@ -4,11 +4,11 @@ class PostsController < ApplicationController
   def index
     @posts = Post.where(:dataset_id => params[:dataset]).order("created_time")
     if params[:tags_filter_type] == 'untagged'
-      @posts = @posts.untagged
+      @posts = @posts.untagged( @user)
     elsif params[:tags_filter_type] == 'all' && !params[:tags_filter_all].blank?
-      @posts = @posts.tags_all( params[:tags_filter_all].split(','))
+      @posts = @posts.tags_all( params[:tags_filter_all].split(','), @user)
     elsif params[:tags_filter_type] == 'any' && !params[:tags_filter_any].blank?
-      @posts = @posts.tags_any( params[:tags_filter_any].split(','))
+      @posts = @posts.tags_any( params[:tags_filter_any].split(','), @user)
     end
 
     if params[:search_filter]
