@@ -25,6 +25,7 @@
     <input id="tags_filter_type_untagged" name="tags_filter_type" type="radio" value="untagged" data-bind="checked: tags_filter_type"/>
     <label for="tags_filter_type_untagged">Show untagged posts.</label>
   </div>
+<!--
   <div>
     <input id="tags_filter_type_tagged" name="tags_filter_type" type="radio" value="all" data-bind="checked: tags_filter_type"/>
     <label for="tags_filter_type_tagged">Show posts with all of these tags:</label>
@@ -32,6 +33,7 @@
   <div data-bind="visible: tags_filter_type() == 'all'">
     <input id="tags_filter_all" name="tags_filter_all" type="text" value="<%= params[:tags_filter_all] -%>"></input>
   </div>
+-->
   <div>
     <input id="tags_filter_type_tagged" name="tags_filter_type" type="radio" value="any" data-bind="checked: tags_filter_type"/>
     <label for="tags_filter_type_tagged">Show posts with any of these tags:</label>

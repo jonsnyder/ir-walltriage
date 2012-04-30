@@ -8,7 +8,7 @@ class Post < ActiveRecord::Base
   scope :not_authored_by, lambda { |id| where('posts.from_id != ?', id) }
   scope :no_dataset, where( :dataset_id => nil)
   scope :tags_any, lambda { |tags| includes(:user_post_tags).where( tags.map { |tag| "user_post_tags.tag = '#{tag}'" }.join(" OR ") ) }
-  scope :tags_all, lambda { |tags| tags_any( tags).group( 'posts.id, posts.created_time').having( 'count(*) = ?', tags.count) }
+  scope :tags_all, lambda { |tags| tags_any( tags).group( 'posts.id').having( 'count(*) = ?', tags.count) }
   scope :untagged,
     joins("LEFT OUTER JOIN user_post_tags upt ON posts.id = upt.post_id").where("upt.id IS NULL")
   scope :search, lambda { |search| where( Enumerator.new { |y| Tokenizer.scan(search) { |term| y << term}}.map { |term| "posts.search LIKE '% " + term + " %'" }.join(" AND ")) } 
