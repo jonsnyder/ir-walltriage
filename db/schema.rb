@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120416004641) do
+ActiveRecord::Schema.define(:version => 20120501031748) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,34 @@ ActiveRecord::Schema.define(:version => 20120416004641) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "mallet_commands", :force => true do |t|
+    t.integer  "mallet_run_id"
+    t.text     "command"
+    t.text     "stdout"
+    t.text     "stderr"
+    t.integer  "exit_status"
+    t.string   "state"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "mallet_commands", ["mallet_run_id"], :name => "index_mallet_commands_on_mallet_run_id"
+
+  create_table "mallet_runs", :force => true do |t|
+    t.string   "name"
+    t.integer  "num_topics"
+    t.integer  "num_iterations"
+    t.integer  "optimize_burn_in"
+    t.boolean  "use_symetric_burn_in"
+    t.decimal  "alpha",                :precision => 10, :scale => 0
+    t.integer  "dataset_id"
+    t.integer  "state"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+  end
+
+  add_index "mallet_runs", ["dataset_id"], :name => "index_mallet_runs_on_dataset_id"
 
   create_table "pages", :force => true do |t|
     t.string   "facebook_id"

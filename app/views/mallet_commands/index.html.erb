@@ -1,0 +1,33 @@
+<h1>Listing mallet_commands</h1>
+
+<table>
+  <tr>
+    <th>Mallet run</th>
+    <th>Command</th>
+    <th>Stdout</th>
+    <th>Stderr</th>
+    <th>Exit status</th>
+    <th>State</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mallet_commands.each do |mallet_command| %>
+  <tr>
+    <td><%= mallet_command.mallet_run %></td>
+    <td><%= mallet_command.command %></td>
+    <td><%= mallet_command.stdout %></td>
+    <td><%= mallet_command.stderr %></td>
+    <td><%= mallet_command.exit_status %></td>
+    <td><%= mallet_command.state %></td>
+    <td><%= link_to 'Show', mallet_command %></td>
+    <td><%= link_to 'Edit', edit_mallet_command_path(mallet_command) %></td>
+    <td><%= link_to 'Destroy', mallet_command, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mallet command', new_mallet_command_path %>

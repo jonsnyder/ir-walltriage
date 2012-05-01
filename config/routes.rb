@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :mallet_commands
+
   # resources :user_comment_tags
 
   resources :user_post_tags, :only => [:update, :destroy]

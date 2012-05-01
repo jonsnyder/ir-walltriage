@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  mallet_run: 
+  command: MyText
+  stdout: MyText
+  stderr: MyText
+  exit_status: 1
+  state: MyString
+
+two:
+  mallet_run: 
+  command: MyText
+  stdout: MyText
+  stderr: MyText
+  exit_status: 1
+  state: MyString

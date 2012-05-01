@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Mallet run:</b>
+  <%= @mallet_command.mallet_run %>
+</p>
+
+<p>
+  <b>Command:</b>
+  <%= @mallet_command.command %>
+</p>
+
+<p>
+  <b>Stdout:</b>
+  <%= @mallet_command.stdout %>
+</p>
+
+<p>
+  <b>Stderr:</b>
+  <%= @mallet_command.stderr %>
+</p>
+
+<p>
+  <b>Exit status:</b>
+  <%= @mallet_command.exit_status %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @mallet_command.state %>
+</p>
+
+
+<%= link_to 'Edit', edit_mallet_command_path(@mallet_command) %> |
+<%= link_to 'Back', mallet_commands_path %>
