@@ -1,0 +1,37 @@
+<h1>Listing mallet_runs</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Num topics</th>
+    <th>Num iterations</th>
+    <th>Optimize burn in</th>
+    <th>Use symetric burn in</th>
+    <th>Alpha</th>
+    <th>Dataset</th>
+    <th>State</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mallet_runs.each do |mallet_run| %>
+  <tr>
+    <td><%= mallet_run.name %></td>
+    <td><%= mallet_run.num_topics %></td>
+    <td><%= mallet_run.num_iterations %></td>
+    <td><%= mallet_run.optimize_burn_in %></td>
+    <td><%= mallet_run.use_symetric_burn_in %></td>
+    <td><%= mallet_run.alpha %></td>
+    <td><%= mallet_run.dataset %></td>
+    <td><%= mallet_run.state %></td>
+    <td><%= link_to 'Show', mallet_run %></td>
+    <td><%= link_to 'Edit', edit_mallet_run_path(mallet_run) %></td>
+    <td><%= link_to 'Destroy', mallet_run, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mallet run', new_mallet_run_path %>

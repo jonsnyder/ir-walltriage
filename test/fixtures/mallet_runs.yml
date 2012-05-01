@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  num_topics: 1
+  num_iterations: 1
+  optimize_burn_in: 1
+  use_symetric_burn_in: false
+  alpha: 9.99
+  dataset: 
+  state: 1
+
+two:
+  name: MyString
+  num_topics: 1
+  num_iterations: 1
+  optimize_burn_in: 1
+  use_symetric_burn_in: false
+  alpha: 9.99
+  dataset: 
+  state: 1

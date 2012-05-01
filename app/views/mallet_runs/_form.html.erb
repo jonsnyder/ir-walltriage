@@ -1,0 +1,49 @@
+<%= form_for(@mallet_run) do |f| %>
+  <% if @mallet_run.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mallet_run.errors.count, "error") %> prohibited this mallet_run from being saved:</h2>
+
+      <ul>
+      <% @mallet_run.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :num_topics %><br />
+    <%= f.number_field :num_topics %>
+  </div>
+  <div class="field">
+    <%= f.label :num_iterations %><br />
+    <%= f.number_field :num_iterations %>
+  </div>
+  <div class="field">
+    <%= f.label :optimize_burn_in %><br />
+    <%= f.number_field :optimize_burn_in %>
+  </div>
+  <div class="field">
+    <%= f.label :use_symetric_burn_in %><br />
+    <%= f.check_box :use_symetric_burn_in %>
+  </div>
+  <div class="field">
+    <%= f.label :alpha %><br />
+    <%= f.text_field :alpha %>
+  </div>
+  <div class="field">
+    <%= f.label :dataset %><br />
+    <%= f.text_field :dataset %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+    <%= f.number_field :state %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

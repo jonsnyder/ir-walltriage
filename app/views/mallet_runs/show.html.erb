@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @mallet_run.name %>
+</p>
+
+<p>
+  <b>Num topics:</b>
+  <%= @mallet_run.num_topics %>
+</p>
+
+<p>
+  <b>Num iterations:</b>
+  <%= @mallet_run.num_iterations %>
+</p>
+
+<p>
+  <b>Optimize burn in:</b>
+  <%= @mallet_run.optimize_burn_in %>
+</p>
+
+<p>
+  <b>Use symetric burn in:</b>
+  <%= @mallet_run.use_symetric_burn_in %>
+</p>
+
+<p>
+  <b>Alpha:</b>
+  <%= @mallet_run.alpha %>
+</p>
+
+<p>
+  <b>Dataset:</b>
+  <%= @mallet_run.dataset %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @mallet_run.state %>
+</p>
+
+
+<%= link_to 'Edit', edit_mallet_run_path(@mallet_run) %> |
+<%= link_to 'Back', mallet_runs_path %>
