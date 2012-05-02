@@ -1,0 +1,29 @@
+<h1>Listing lda_topic_words</h1>
+
+<table>
+  <tr>
+    <th>Lda topic</th>
+    <th>Weight</th>
+    <th>Tokens</th>
+    <th>Word</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @lda_topic_words.each do |lda_topic_word| %>
+  <tr>
+    <td><%= lda_topic_word.lda_topic %></td>
+    <td><%= lda_topic_word.weight %></td>
+    <td><%= lda_topic_word.tokens %></td>
+    <td><%= lda_topic_word.word %></td>
+    <td><%= link_to 'Show', lda_topic_word %></td>
+    <td><%= link_to 'Edit', edit_lda_topic_word_path(lda_topic_word) %></td>
+    <td><%= link_to 'Destroy', lda_topic_word, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Lda topic word', new_lda_topic_word_path %>

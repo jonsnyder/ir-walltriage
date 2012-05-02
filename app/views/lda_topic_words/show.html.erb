@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Lda topic:</b>
+  <%= @lda_topic_word.lda_topic %>
+</p>
+
+<p>
+  <b>Weight:</b>
+  <%= @lda_topic_word.weight %>
+</p>
+
+<p>
+  <b>Tokens:</b>
+  <%= @lda_topic_word.tokens %>
+</p>
+
+<p>
+  <b>Word:</b>
+  <%= @lda_topic_word.word %>
+</p>
+
+
+<%= link_to 'Edit', edit_lda_topic_word_path(@lda_topic_word) %> |
+<%= link_to 'Back', lda_topic_words_path %>

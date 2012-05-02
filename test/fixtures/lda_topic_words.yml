@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  lda_topic: 
+  weight: 9.99
+  tokens: 1
+  word: MyString
+
+two:
+  lda_topic: 
+  weight: 9.99
+  tokens: 1
+  word: MyString

@@ -1,0 +1,29 @@
+<h1>Listing strategies</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Type</th>
+    <th>Options</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @strategies.each do |strategy| %>
+  <tr>
+    <td><%= strategy.name %></td>
+    <td><%= strategy.description %></td>
+    <td><%= strategy.type %></td>
+    <td><%= strategy.options %></td>
+    <td><%= link_to 'Show', strategy %></td>
+    <td><%= link_to 'Edit', edit_strategy_path(strategy) %></td>
+    <td><%= link_to 'Destroy', strategy, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Strategy', new_strategy_path %>
