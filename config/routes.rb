@@ -1,5 +1,6 @@
 Walltriage::Application.routes.draw do
   resources :mallet_commands
+  resources :mallet_runs
 
   # resources :user_comment_tags
 

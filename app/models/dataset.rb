@@ -13,4 +13,12 @@ class Dataset < ActiveRecord::Base
       end
     end
   end
+
+  def to_mallet_file( filename)
+    File.open( filename, 'w') do |f|
+      posts.each do |p|
+        f.puts p.to_mallet
+      end
+    end
+  end
 end

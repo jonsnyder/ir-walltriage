@@ -1,4 +1,8 @@
 class MalletRunsController < ApplicationController
+  include IsLoggedIn
+
+  before_filter :is_superuser
+  
   # GET /mallet_runs
   # GET /mallet_runs.json
   def index
