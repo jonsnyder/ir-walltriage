@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Alpha:</b>
+  <%= @lda_topic.alpha %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @lda_topic.title %>
+</p>
+
+<p>
+  <b>Tokens:</b>
+  <%= @lda_topic.tokens %>
+</p>
+
+<p>
+  <b>Mallet run:</b>
+  <%= @lda_topic.mallet_run %>
+</p>
+
+
+<%= link_to 'Edit', edit_lda_topic_path(@lda_topic) %> |
+<%= link_to 'Back', lda_topics_path %>

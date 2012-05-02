@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  alpha: 9.99
+  title: MyString
+  tokens: 1
+  mallet_run: 
+
+two:
+  alpha: 9.99
+  title: MyString
+  tokens: 1
+  mallet_run: 

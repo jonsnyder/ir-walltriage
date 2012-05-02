@@ -1,0 +1,29 @@
+<h1>Listing lda_topics</h1>
+
+<table>
+  <tr>
+    <th>Alpha</th>
+    <th>Title</th>
+    <th>Tokens</th>
+    <th>Mallet run</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @lda_topics.each do |lda_topic| %>
+  <tr>
+    <td><%= lda_topic.alpha %></td>
+    <td><%= lda_topic.title %></td>
+    <td><%= lda_topic.tokens %></td>
+    <td><%= lda_topic.mallet_run %></td>
+    <td><%= link_to 'Show', lda_topic %></td>
+    <td><%= link_to 'Edit', edit_lda_topic_path(lda_topic) %></td>
+    <td><%= link_to 'Destroy', lda_topic, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Lda topic', new_lda_topic_path %>

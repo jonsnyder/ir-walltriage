@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :lda_topics
+
   resources :mallet_commands
   resources :mallet_runs
 

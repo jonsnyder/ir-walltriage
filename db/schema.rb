@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120501031748) do
+ActiveRecord::Schema.define(:version => 20120502041027) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(:version => 20120501031748) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "lda_topics", :force => true do |t|
+    t.decimal  "alpha",         :precision => 10, :scale => 0
+    t.string   "title"
+    t.integer  "tokens"
+    t.integer  "mallet_run_id"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+  end
+
+  add_index "lda_topics", ["mallet_run_id"], :name => "index_lda_topics_on_mallet_run_id"
 
   create_table "mallet_commands", :force => true do |t|
     t.integer  "mallet_run_id"

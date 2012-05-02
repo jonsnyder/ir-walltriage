@@ -1,0 +1,33 @@
+<%= form_for(@lda_topic) do |f| %>
+  <% if @lda_topic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@lda_topic.errors.count, "error") %> prohibited this lda_topic from being saved:</h2>
+
+      <ul>
+      <% @lda_topic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :alpha %><br />
+    <%= f.text_field :alpha %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :tokens %><br />
+    <%= f.number_field :tokens %>
+  </div>
+  <div class="field">
+    <%= f.label :mallet_run %><br />
+    <%= f.text_field :mallet_run %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
