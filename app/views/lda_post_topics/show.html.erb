@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Post:</b>
+  <%= @lda_post_topic.post %>
+</p>
+
+<p>
+  <b>Lda topic:</b>
+  <%= @lda_post_topic.lda_topic %>
+</p>
+
+<p>
+  <b>Weight:</b>
+  <%= @lda_post_topic.weight %>
+</p>
+
+
+<%= link_to 'Edit', edit_lda_post_topic_path(@lda_post_topic) %> |
+<%= link_to 'Back', lda_post_topics_path %>

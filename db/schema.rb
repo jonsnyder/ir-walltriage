@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502041539) do
+ActiveRecord::Schema.define(:version => 20120502054102) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,29 @@ ActiveRecord::Schema.define(:version => 20120502041539) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "lda_post_tags", :force => true do |t|
+    t.integer  "post_id"
+    t.integer  "lda_topic_id"
+    t.integer  "strategy_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "lda_post_tags", ["lda_topic_id"], :name => "index_lda_post_tags_on_lda_topic_id"
+  add_index "lda_post_tags", ["post_id"], :name => "index_lda_post_tags_on_post_id"
+  add_index "lda_post_tags", ["strategy_id"], :name => "index_lda_post_tags_on_strategy_id"
+
+  create_table "lda_post_topics", :force => true do |t|
+    t.integer  "post_id"
+    t.integer  "lda_topic_id"
+    t.float    "weight"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "lda_post_topics", ["lda_topic_id"], :name => "index_lda_post_topics_on_lda_topic_id"
+  add_index "lda_post_topics", ["post_id"], :name => "index_lda_post_topics_on_post_id"
 
   create_table "lda_topic_words", :force => true do |t|
     t.integer  "lda_topic_id"
@@ -129,6 +152,15 @@ ActiveRecord::Schema.define(:version => 20120502041539) do
 
   add_index "posts", ["dataset_id"], :name => "index_posts_on_dataset_id"
   add_index "posts", ["page_id"], :name => "index_posts_on_page_id"
+
+  create_table "strategies", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "type"
+    t.text     "options"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "user_comment_tags", :force => true do |t|
     t.integer  "post_id"

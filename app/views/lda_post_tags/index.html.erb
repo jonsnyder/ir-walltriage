@@ -1,0 +1,27 @@
+<h1>Listing lda_post_tags</h1>
+
+<table>
+  <tr>
+    <th>Post</th>
+    <th>Lda topic</th>
+    <th>Strategy</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @lda_post_tags.each do |lda_post_tag| %>
+  <tr>
+    <td><%= lda_post_tag.post %></td>
+    <td><%= lda_post_tag.lda_topic %></td>
+    <td><%= lda_post_tag.strategy %></td>
+    <td><%= link_to 'Show', lda_post_tag %></td>
+    <td><%= link_to 'Edit', edit_lda_post_tag_path(lda_post_tag) %></td>
+    <td><%= link_to 'Destroy', lda_post_tag, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Lda post tag', new_lda_post_tag_path %>

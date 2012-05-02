@@ -70,7 +70,7 @@ class Post < ActiveRecord::Base
   end
 
   def to_mallet
-    id.to_s + created_time.strftime("_%Y%m%d") + " en" + tokenized
+    id.to_s + " en" + tokenized
   end
 
   def tokenized

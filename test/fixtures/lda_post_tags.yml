@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  post: 
+  lda_topic: 
+  strategy: 
+
+two:
+  post: 
+  lda_topic: 
+  strategy: 

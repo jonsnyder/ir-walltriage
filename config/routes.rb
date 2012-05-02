@@ -1,4 +1,8 @@
 Walltriage::Application.routes.draw do
+  resources :lda_post_topics
+
+  resources :lda_post_tags
+
   resources :strategies
 
   resources :lda_topic_words
