@@ -56,7 +56,9 @@ class Post < ActiveRecord::Base
   def update_tags( tags, user)
     self.user_post_tags.user( user).destroy_all
     tags.each do |tag|
-      self.user_post_tags.user( user).create( :tag => tag)
+      if !tag.strip.blank?
+        self.user_post_tags.user( user).create( :tag => tag.strip)
+      end
     end    
   end
 

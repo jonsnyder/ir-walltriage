@@ -36,7 +36,7 @@
   <tbody>
     <% @users.each do |user| -%>
     <tr>
-      <td><input type="checkbox" name="user" value="<%= user.id -%>"></input></td>
+      <td><input type="checkbox" name="user[]" value="<%= user.id -%>"></input></td>
       <td><%= user.name -%></td>
       <td><%= user.tagged_posts( @dataset) -%></td>
       <td><%= user.tags( @dataset) -%></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502133133) do
+ActiveRecord::Schema.define(:version => 20120503025859) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -168,6 +168,15 @@ ActiveRecord::Schema.define(:version => 20120502133133) do
 
   add_index "posts", ["dataset_id"], :name => "index_posts_on_dataset_id"
   add_index "posts", ["page_id"], :name => "index_posts_on_page_id"
+
+  create_table "stats", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.text     "options"
+    t.string   "type"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "strategies", :force => true do |t|
     t.string   "name"

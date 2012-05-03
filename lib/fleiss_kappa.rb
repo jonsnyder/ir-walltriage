@@ -19,7 +19,7 @@ class FleissKappa
         
         matches = 0
         no_matches = 0
-        matchers.each do |matcher|
+        @matchers.each do |matcher|
           match_decisions += 1
           if matcher.matches?( @post_ids[i], @post_ids[ii])
             matches += 1
@@ -28,7 +28,7 @@ class FleissKappa
           end
         end
 
-        p_i = (matches**2 + no_matches**2 - num_matches).to_f / (num_matches**2 - num_matches)
+        p_i = (matches**2 + no_matches**2 - num_matchers).to_f / (num_matchers**2 - num_matchers)
         sum_of_p_i += p_i
         sum_of_matches += matches
         sum_of_no_matches += matches
