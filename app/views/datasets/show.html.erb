@@ -46,6 +46,31 @@
   </tbody>
 </table>
 
+<table>
+  <thead>
+    <tr>
+      <td></td>
+      <td> Mallet Run </td>
+      <td> Tagging Strategy </td>
+      <td> Tagged Posts </td>
+      <td> Tags </td>
+      <td> Unique Tags </td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @strategies.each do |strategy| -%>
+    <tr>
+      <td><input type="checkbox" name="strategy[]" value="<%= strategy.id -%>"></input></td>
+      <td><%= strategy.mallet_run.name -%></td>
+      <td><%= strategy.name -%></td>
+      <td><%= strategy.tagged_posts -%></td>
+      <td><%= strategy.tags -%></td>
+      <td><%= strategy.unique_tags -%></td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
+
 <input type="submit" value="Submit"></input>
 
 </form>

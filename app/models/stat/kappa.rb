@@ -13,7 +13,11 @@ class Stat::Kappa < Stat
         matchers << Matcher::UserPostTags.new( user_id)
       end
     end
-    
+    if params[:strategy]
+      params[:strategy].each do |strategy_id|
+        matchers << Matcher::LdaPostTags.new( Strategy.find( strategy_id))
+      end
+    end
     FleissKappa.new( dataset.post_ids, matchers).calculate
   end
   

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120503025859) do
+ActiveRecord::Schema.define(:version => 20120503033004) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -183,9 +183,12 @@ ActiveRecord::Schema.define(:version => 20120503025859) do
     t.string   "description"
     t.string   "type"
     t.text     "options"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "mallet_run_id"
   end
+
+  add_index "strategies", ["mallet_run_id"], :name => "index_strategies_on_mallet_run_id"
 
   create_table "user_comment_tags", :force => true do |t|
     t.integer  "post_id"

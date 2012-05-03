@@ -26,6 +26,8 @@ class DatasetsController < ApplicationController
   def show
     @dataset = Dataset.find(params[:id])
     @users = AccessToken.all
+    @strategies = Strategy.includes( :mallet_run).where( :mallet_runs => {:dataset_id => @dataset.id})
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @dataset }

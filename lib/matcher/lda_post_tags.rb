@@ -1,9 +1,8 @@
 class Matcher::LdaPostTags
   extend ActiveSupport::Memoizable
 
-  def initialize( mallet_run_id, strategy_id)
-    @mallet_run_id = mallet_run_id
-    @strategy_id = strategy_id
+  def initialize( strategy)
+    @strategy = strategy
   end
 
   def matches?( a, b)
@@ -13,7 +12,7 @@ class Matcher::LdaPostTags
   protected
 
   def topic_ids_for_post( id)
-    LdaPostTags.select(:lda_topic_id).includes(:lda_topics).where( :lda_topics => { :mallet_run_id => @mallet_run_id }, :post_id => id).map(&:lda_topic_id)
+    @strategy.lda_post_tags.select(:lda_topic_id).where( :post_id => id).map(&:lda_topic_id)
   end
   memoize :topic_ids_for_post
 
