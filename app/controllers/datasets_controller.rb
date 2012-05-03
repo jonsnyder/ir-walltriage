@@ -25,7 +25,7 @@ class DatasetsController < ApplicationController
   # GET /datasets/1.json
   def show
     @dataset = Dataset.find(params[:id])
-
+    @users = AccessToken.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @dataset }

@@ -15,6 +15,37 @@
   <%= @dataset.is_user_dataset %>
 </p>
 
-
 <%= link_to 'Edit', edit_dataset_path(@dataset) %> |
 <%= link_to 'Back', datasets_path %>
+
+<hr>
+
+<form action="/stats/1/">
+<input type="hidden" name="dataset" value="<%= @dataset.id -%>"></input>
+  
+<table>
+  <thead>
+    <tr>
+      <td></td>
+      <td> User </td>
+      <td> Tagged Posts </td>
+      <td> Tags </td>
+      <td> Unique Tags </td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| -%>
+    <tr>
+      <td><input type="checkbox" name="user" value="<%= user.id -%>"></input></td>
+      <td><%= user.name -%></td>
+      <td><%= user.tagged_posts( @dataset) -%></td>
+      <td><%= user.tags( @dataset) -%></td>
+      <td><%= user.unique_tags( @dataset) -%></td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<input type="submit" value="Submit"></input>
+
+</form>
