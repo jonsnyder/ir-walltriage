@@ -1,4 +1,8 @@
 class LdaPostTopicsController < ApplicationController
+
+  include IsLoggedIn
+  before_filter :is_superuser
+  
   # GET /lda_post_topics
   # GET /lda_post_topics.json
   def index

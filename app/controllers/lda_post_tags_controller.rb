@@ -1,4 +1,8 @@
 class LdaPostTagsController < ApplicationController
+
+  include IsLoggedIn
+  before_filter :is_superuser
+  
   # GET /lda_post_tags
   # GET /lda_post_tags.json
   def index

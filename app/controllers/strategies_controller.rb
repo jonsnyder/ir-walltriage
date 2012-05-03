@@ -1,4 +1,8 @@
 class StrategiesController < ApplicationController
+
+  include IsLoggedIn
+  before_filter :is_superuser
+
   # GET /strategies
   # GET /strategies.json
   def index
