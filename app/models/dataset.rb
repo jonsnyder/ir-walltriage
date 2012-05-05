@@ -1,5 +1,6 @@
 class Dataset < ActiveRecord::Base
   has_many :posts, :dependent => :destroy
+  has_many :stopword_lists, :dependent => :destroy
   
   def copy_posts_into_dataset( posts)
     posts.each do |post|
@@ -58,7 +59,8 @@ class Dataset < ActiveRecord::Base
       tf.words.each do |word|
         df.add( word)
       end
-    end      
+    end
+    df
   end
   
 end
