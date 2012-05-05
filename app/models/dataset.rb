@@ -14,11 +14,35 @@ class Dataset < ActiveRecord::Base
     end
   end
 
-  def to_mallet_file( filename)
+  def to_mallet_file( filename, input_posts=nil)
+    input_posts ||= posts
     File.open( filename, 'w') do |f|
-      posts.each do |p|
+      input_posts.each do |p|
         f.puts p.to_mallet
       end
     end
   end
+
+  def k_fold_cross_validation_sets( k)
+    partitions = partition(k)
+    partitions.each_with_index do |validation_set, i|
+      training_set = ((i > 0) ? partitions[0..i-1] : []) + ((i < 10) ? partitions[i+1..k-1] : [])
+      training_set.flatten!
+      yield i, training_set, validation_set
+    end
+    nil
+  end
+
+  def partition( k)
+    partitions = []
+    posts.all.sort_by { rand }.each_slice( posts.size / k) { |slice| partitions << slice }
+    if partitions.length == k + 1
+      partitions[k].each_with_index do | post, i|
+        partitions[i] << post
+      end
+      partitions.pop
+    end
+    partitions
+  end
+  
 end

@@ -84,4 +84,15 @@ class MalletRunsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def run
+    @mallet_run = MalletRun.find( params[:id])
+    @mallet_run.state = "Queued"
+    @mallet_run.save!
+    Delayed::Job.enqueue DelayedJob.new( params[:id], MalletRun, :run)
+    
+    respond_to do |format|
+      format.html { redirect_to @mallet_run, notice: 'Mallet run started.' }
+    end
+  end
 end

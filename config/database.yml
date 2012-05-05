@@ -7,6 +7,4 @@ development:
   socket:    /tmp/mysql.sock
   username:  root
 
-test:
-  database: walltriage_test
 

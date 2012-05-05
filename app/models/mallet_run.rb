@@ -3,30 +3,36 @@ class MalletRun < ActiveRecord::Base
   has_many :mallet_commands
   has_many :lda_topics
 
+  TOKEN_REGEX = '[^\s]+'
+  MALLET = './vendor/mallet/bin/mallet'
+  
   def run
+    self.state = "Running"
+    save!
+    
     mallet_commands.destroy_all
     
     dir = "./tmp/mallet_run_#{id}"
     input_file = dir + "/input.txt"
     mallet_file = dir + "/input.mallet"
-    token_regex = '[^\s]+'
     output_doc_topics = dir + "/output_doc_topics.txt"
     xml_topic_phrase_report = dir + "/xml_topic_phrase_report.xml"
-
     
-    mallet_commands.create( :command => "rm -rf #{dir}; mkdir #{dir}").run
+    make_directory( dir)
     
     dataset.to_mallet_file( input_file)
     
-    mallet_commands.create( :command => "./vendor/mallet/bin/mallet import-file --keep-sequence --input #{input_file} --output #{mallet_file} --token-regex '#{token_regex}' --remove-stopwords TRUE").run
-    mallet_commands.create( :command => "./vendor/mallet/bin/mallet train-topics --input #{mallet_file} --num-topics #{num_topics} --num-iterations #{num_iterations} --optimize-burn-in #{optimize_burn_in} --use-symmetric-alpha #{use_symetric_burn_in ? 'TRUE' : 'FALSE'} --show-topics-interval 500 --output-doc-topics #{output_doc_topics} --xml-topic-phrase-report #{xml_topic_phrase_report}").run
+    mallet_commands.create( :command => "#{MALLET} import-file --keep-sequence --input #{input_file} --output #{mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :command => "#{MALLET} train-topics --input #{mallet_file} #{mallet_options} --output-doc-topics #{output_doc_topics} --xml-topic-phrase-report #{xml_topic_phrase_report} --output-state #{dir}/output_state.gz").run
 
 
     lda_topics.destroy_all
     # parse the output files here
     topics = import_xml_topic_phrase_report( xml_topic_phrase_report)
-    puts topics.inspect
     import_doc_topics( output_doc_topics, topics)
+
+    self.state = "Finished"
+    save!
   end
 
 
@@ -55,7 +61,6 @@ class MalletRun < ActiveRecord::Base
       i, id, *doc_topics = line.split("\t")
       doc_topics.pop
       weights = Hash[*doc_topics].sort_by { |k,v| k}.map(&:last)
-      puts "WEIGHTS - #{weights.inspect}"
 
       topics.each_with_index  do |topic,i|
         topic.lda_post_topics.create( :post_id => id, :weight => weights[i])
@@ -63,4 +68,43 @@ class MalletRun < ActiveRecord::Base
     end
   end
 
+  def k_fold_cross_validation( k)
+    mallet_commands.destroy_all
+
+    dataset.k_fold_cross_validation_sets( k) do |i, training_set, validation_set|
+      self.state = "Running Evaluation #{i} of #{k}"
+      save!
+      run_evaluation( i, training_set, validation_set)
+    end
+    
+  end
+  
+  def run_evaluation( i, training_set, validation_set)
+    dir = "./tmp/mallet_run_#{id}/evaluation_#{i}"
+    
+    make_directory( dir)
+
+    training_input_file = dir + "/training_input.txt"
+    training_mallet_file = dir + "/training_input.mallet"
+    validation_input_file = dir + "/validation_input.txt"
+    validation_mallet_file = dir + "/validation_input.mallet"
+    evaluator_file = dir + "/evaluator"
+    
+    dataset.to_mallet_file( training_input_file, training_set)
+    dataset.to_mallet_file( validation_input_file, validation_set)
+    
+    mallet_commands.create( :command => "#{MALLET} import-file --keep-sequence --input #{training_input_file} --output #{training_mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :command => "#{MALLET} train-topics --input #{training_mallet_file} #{mallet_options} --evaluator-filename #{evaluator_file}").run
+
+    mallet_commands.create( :command => "#{MALLET} import-file --keep-sequence --use-pipe-from #{training_mallet_file} --input #{validation_input_file} --output #{validation_mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :command => "#{MALLET} evaluate-topics --evaluator #{evaluator_file} --input #{validation_mallet_file} --output-doc-probs #{dir}/output_doc_probs.txt --output-prob #{dir}/output_prob.txt").run
+  end
+
+  def mallet_options
+    "--num-topics #{num_topics} --num-iterations #{num_iterations} --optimize-burn-in #{optimize_burn_in} --alpha #{alpha} --use-symmetric-alpha #{use_symetric_burn_in ? 'TRUE' : 'FALSE'} --show-topics-interval 500"
+  end
+
+  def make_directory( dir) 
+    mallet_commands.create( :command => "[ -e #{dir} ] && rm -rf #{dir}; mkdir #{dir}" ).run
+  end
 end

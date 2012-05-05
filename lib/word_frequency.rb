@@ -11,7 +11,7 @@ class WordFrequency
   end
 
   def freq( word)
-    if @freq.has_key?( word)
+    if !@freq.has_key?( word)
       0
     else
       @freq[word]

@@ -12,7 +12,11 @@ Walltriage::Application.routes.draw do
   resources :lda_topics
 
   resources :mallet_commands
-  resources :mallet_runs
+  resources :mallet_runs do
+    member do
+      post 'run'
+    end
+  end
 
   # resources :user_comment_tags
 

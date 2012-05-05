@@ -13,6 +13,13 @@ class MalletCommand < ActiveRecord::Base
 
     sleep 0
     while true
+      if mallet_run.state == "Canceled"
+        Process::kill("INT", pid)
+        self.state = "CANCELED"
+        save!
+        raise 'Job Canceled'
+      end
+      
       ignored, status = Process::waitpid2( pid, Process::WNOHANG)
       self.stdout += read_nonblock(p_stdout)
       self.stderr += read_nonblock(p_stderr)
@@ -40,10 +47,8 @@ class MalletCommand < ActiveRecord::Base
       buf += io.read_nonblock( 4096)
     end
   rescue IO::WaitReadable
-    puts buf
     return buf
   rescue EOFError
-    puts buf
     return buf
   end
 end

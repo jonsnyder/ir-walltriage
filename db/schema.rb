@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120503033004) do
+ActiveRecord::Schema.define(:version => 20120504141527) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(:version => 20120503033004) do
     t.boolean  "use_symetric_burn_in"
     t.decimal  "alpha",                :precision => 10, :scale => 0
     t.integer  "dataset_id"
-    t.integer  "state"
+    t.string   "state"
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
   end

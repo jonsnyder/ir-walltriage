@@ -13,8 +13,8 @@ class FleissKappa
     combinations = 0
     num_matchers = @matchers.size
     
-    (0..@post_ids.size-1).each do |i|
-      (i..@post_ids.size-1).each do |ii|
+    (0..@post_ids.size-2).each do |i|
+      (i+1..@post_ids.size-1).each do |ii|
         combinations += 1
         
         matches = 0
