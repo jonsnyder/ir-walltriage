@@ -1,0 +1,25 @@
+<%= form_for(@stopword) do |f| %>
+  <% if @stopword.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stopword.errors.count, "error") %> prohibited this stopword from being saved:</h2>
+
+      <ul>
+      <% @stopword.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :word %><br />
+    <%= f.text_field :word %>
+  </div>
+  <div class="field">
+    <%= f.label :stopword_list %><br />
+    <%= f.text_field :stopword_list %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

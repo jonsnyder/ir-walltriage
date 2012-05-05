@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :stopwords
+
   resources :stopword_lists
 
   resources :stats

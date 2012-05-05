@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Word:</b>
+  <%= @stopword.word %>
+</p>
+
+<p>
+  <b>Stopword list:</b>
+  <%= @stopword.stopword_list %>
+</p>
+
+
+<%= link_to 'Edit', edit_stopword_path(@stopword) %> |
+<%= link_to 'Back', stopwords_path %>

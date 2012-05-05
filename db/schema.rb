@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120505212545) do
+ActiveRecord::Schema.define(:version => 20120505212900) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -184,6 +184,15 @@ ActiveRecord::Schema.define(:version => 20120505212545) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "stopwords", :force => true do |t|
+    t.string   "word"
+    t.integer  "stopword_list_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "stopwords", ["stopword_list_id"], :name => "index_stopwords_on_stopword_list_id"
 
   create_table "strategies", :force => true do |t|
     t.string   "name"
