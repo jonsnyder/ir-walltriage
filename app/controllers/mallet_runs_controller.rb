@@ -89,10 +89,34 @@ class MalletRunsController < ApplicationController
     @mallet_run = MalletRun.find( params[:id])
     @mallet_run.state = "Queued"
     @mallet_run.save!
-    Delayed::Job.enqueue DelayedJob.new( params[:id], MalletRun, :run)
+    Delayed::Job.enqueue DelayedJob.new( params[:id], MalletRun, :run, [])
     
     respond_to do |format|
       format.html { redirect_to @mallet_run, notice: 'Mallet run started.' }
     end
   end
+
+  def run_validation
+    @mallet_run = MalletRun.find( params[:id])
+    @mallet_run.state = "Queued"
+    @mallet_run.save!
+    Delayed::Job.enqueue DelayedJob.new( params[:id], MalletRun, :k_fold_cross_validation, [params[:k].to_i])
+    
+    respond_to do |format|
+      format.html { redirect_to @mallet_run, notice: 'Mallet run started.' }
+    end
+  end
+
+  # GET /mallet_runs/1/jobs
+  # GET /mallet_runs/1/jobs.json
+  def jobs
+    @mallet_run = MalletRun.find(params[:id])
+    @commands = @mallet_run.mallet_commands.job( params[:job])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @commands }
+    end
+  end
+
 end

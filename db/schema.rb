@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120504141527) do
+ActiveRecord::Schema.define(:version => 20120505202832) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20120504141527) do
     t.string   "state"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "job"
   end
 
   add_index "mallet_commands", ["mallet_run_id"], :name => "index_mallet_commands_on_mallet_run_id"

@@ -36,11 +36,11 @@ class Dataset < ActiveRecord::Base
   def partition( k)
     partitions = []
     posts.all.sort_by { rand }.each_slice( posts.size / k) { |slice| partitions << slice }
-    if partitions.length == k + 1
-      partitions[k].each_with_index do | post, i|
+    if partitions.length > k
+      partitions[k..partitions.length-1].flatten.each_with_index do | post, i|
         partitions[i] << post
       end
-      partitions.pop
+      partitions = partitions[0..k-1]
     end
     partitions
   end

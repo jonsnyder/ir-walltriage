@@ -15,6 +15,8 @@ Walltriage::Application.routes.draw do
   resources :mallet_runs do
     member do
       post 'run'
+      post 'run_validation'
+      get 'jobs'
     end
   end
 

@@ -41,21 +41,11 @@
 </p>
 
 <%= link_to 'Run', run_mallet_run_path(@mallet_run), :method => :post %> | 
+<%= link_to 'Run 5-fold validation', run_validation_mallet_run_path(@mallet_run, :k => 5), :method => :post %> |
+<%= link_to 'Run 10-fold validation', run_validation_mallet_run_path(@mallet_run, :k => 10), :method => :post %> |
 <%= link_to 'Edit', edit_mallet_run_path(@mallet_run) %> |
 <%= link_to 'Back', mallet_runs_path %>
 
-<% @mallet_run.mallet_commands.each do |mallet_command| -%>
-  <h4><%= mallet_command.command -%></h4>
-  <% if mallet_command.stdout && mallet_command.stdout.size > 0 -%>
-    <label>Stdout</label>
-    <pre><%= mallet_command.stdout -%></pre>
-  <% end -%>
-  <% if mallet_command.stderr && mallet_command.stderr.size > 0 -%>
-    <label>Sterr</label>
-    <pre><%= mallet_command.stderr -%></pre>
-  <% end -%>
-  <% if mallet_command.exit_status && mallet_command.exit_status != 0 -%>
-    <label>Exit Status</label>
-    <pre><%= mallet_command.exit_status -%></pre>
-  <% end -%>
+<% @mallet_run.jobs.each do |job| -%>
+  <h4><%= link_to job, jobs_mallet_run_path( @mallet_run, :job => job) -%>
 <% end -%>

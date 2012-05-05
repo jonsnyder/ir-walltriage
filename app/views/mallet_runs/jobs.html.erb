@@ -1,0 +1,18 @@
+<h2><%= link_to @mallet_run.name, @mallet_run -%></h2>
+<h2><%= params[:job] -%></h2>
+
+<% @commands.each do |mallet_command| -%>
+  <h4><%= mallet_command.command -%></h4>
+  <% if mallet_command.stdout && mallet_command.stdout.size > 0 -%>
+    <label>Stdout</label>
+    <pre><%= mallet_command.stdout -%></pre>
+  <% end -%>
+  <% if mallet_command.stderr && mallet_command.stderr.size > 0 -%>
+    <label>Sterr</label>
+    <pre><%= mallet_command.stderr -%></pre>
+  <% end -%>
+  <% if mallet_command.exit_status && mallet_command.exit_status != 0 -%>
+    <label>Exit Status</label>
+    <pre><%= mallet_command.exit_status -%></pre>
+  <% end -%>
+<% end -%>

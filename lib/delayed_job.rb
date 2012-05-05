@@ -1,5 +1,5 @@
-class DelayedJob < Struct.new( :id, :klass, :method)
+class DelayedJob < Struct.new( :id, :klass, :method, :params)
   def perform
-    klass.constantize.find(id).send(method)
+    klass.constantize.find(id).send(method, *params)
   end
 end

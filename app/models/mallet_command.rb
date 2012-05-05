@@ -1,6 +1,9 @@
 class MalletCommand < ActiveRecord::Base
   belongs_to :mallet_run
 
+  scope :job, lambda { |job| where(:job => job) }
+  scope :jobs_like, lambda { |job| where( 'job LIKE ?', "%#{job}%") }
+  
   def run
     
     pid, p_stdin, p_stdout, p_stderr = Open4::popen4 command
