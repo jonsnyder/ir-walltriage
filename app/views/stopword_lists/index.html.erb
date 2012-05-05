@@ -1,0 +1,23 @@
+<h1>Listing stopword_lists</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @stopword_lists.each do |stopword_list| %>
+  <tr>
+    <td><%= stopword_list.name %></td>
+    <td><%= link_to 'Show', stopword_list %></td>
+    <td><%= link_to 'Edit', edit_stopword_list_path(stopword_list) %></td>
+    <td><%= link_to 'Destroy', stopword_list, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Stopword list', new_stopword_list_path %>
