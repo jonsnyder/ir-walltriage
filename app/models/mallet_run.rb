@@ -1,5 +1,6 @@
 class MalletRun < ActiveRecord::Base
   belongs_to :dataset
+  belongs_to :stopword_list
   has_many :mallet_commands
   has_many :lda_topics
 
@@ -25,9 +26,9 @@ class MalletRun < ActiveRecord::Base
     
     make_directory( dir, job)
     
-    dataset.to_mallet_file( input_file)
+    dataset.to_mallet_file( input_file) { |word| !stopword_list.contains( word) }
     
-    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --input #{input_file} --output #{mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --input #{input_file} --output #{mallet_file} --token-regex '#{TOKEN_REGEX}'").run
     mallet_commands.create( :job => job, :command => "#{MALLET} train-topics --input #{mallet_file} #{mallet_options} --output-doc-topics #{output_doc_topics} --xml-topic-phrase-report #{xml_topic_phrase_report} --output-state #{dir}/output_state.gz").run
 
 
@@ -96,13 +97,13 @@ class MalletRun < ActiveRecord::Base
     validation_mallet_file = dir + "/validation_input.mallet"
     evaluator_file = dir + "/evaluator"
     
-    dataset.to_mallet_file( training_input_file, training_set)
-    dataset.to_mallet_file( validation_input_file, validation_set)
+    dataset.to_mallet_file( training_input_file, training_set) { |word| !stopword_list.contains(word) }
+    dataset.to_mallet_file( validation_input_file, validation_set) { |word| !stopword_list.contains(word) }
     
-    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --input #{training_input_file} --output #{training_mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --input #{training_input_file} --output #{training_mallet_file} --token-regex '#{TOKEN_REGEX}'").run
     mallet_commands.create( :job => job, :command => "#{MALLET} train-topics --input #{training_mallet_file} #{mallet_options} --evaluator-filename #{evaluator_file}").run
 
-    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --use-pipe-from #{training_mallet_file} --input #{validation_input_file} --output #{validation_mallet_file} --token-regex '#{TOKEN_REGEX}' --remove-stopwords TRUE").run
+    mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --use-pipe-from #{training_mallet_file} --input #{validation_input_file} --output #{validation_mallet_file} --token-regex '#{TOKEN_REGEX}'").run
     mallet_commands.create( :job => job, :command => "#{MALLET} evaluate-topics --evaluator #{evaluator_file} --input #{validation_mallet_file} --output-doc-probs #{dir}/output_doc_probs.txt --output-prob #{dir}/output_prob.txt").run
   end
 

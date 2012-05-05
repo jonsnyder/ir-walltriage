@@ -18,7 +18,7 @@ class Dataset < ActiveRecord::Base
     input_posts ||= posts
     File.open( filename, 'w') do |f|
       input_posts.each do |p|
-        f.puts p.to_mallet
+        f.puts p.to_mallet { |word| yield word }
       end
     end
   end

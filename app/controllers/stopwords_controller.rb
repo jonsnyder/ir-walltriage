@@ -1,4 +1,7 @@
 class StopwordsController < ApplicationController
+  include IsLoggedIn
+  before_filter :is_superuser
+
   # GET /stopwords
   # GET /stopwords.json
   def index
