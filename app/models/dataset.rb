@@ -44,5 +44,21 @@ class Dataset < ActiveRecord::Base
     end
     partitions
   end
+
+  def df
+    df = WordFrequency.new
+    
+    posts.each do |post|
+      tf = WordFrequency.new
+      post.tokenized { |word| true }.split(" ").each do |word|
+        if !word.blank?
+          tf.add( word)
+        end
+      end
+      tf.words.each do |word|
+        df.add( word)
+      end
+    end      
+  end
   
 end
