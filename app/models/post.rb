@@ -4,6 +4,8 @@ class Post < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :user_post_tags
   has_many :user_comment_tags, :through => :comments
+  has_many :lda_post_topics
+  has_many :lda_post_tags
   
   scope :not_authored_by, lambda { |id| where('posts.from_id != ?', id) }
   scope :no_dataset, where( :dataset_id => nil)

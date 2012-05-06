@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Stat:</b>
+  <%= @stat_value.stat %>
+</p>
+
+<p>
+  <b>Strategy:</b>
+  <%= @stat_value.strategy %>
+</p>
+
+<p>
+  <b>Access token:</b>
+  <%= @stat_value.access_token %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @stat_value.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_stat_value_path(@stat_value) %> |
+<%= link_to 'Back', stat_values_path %>

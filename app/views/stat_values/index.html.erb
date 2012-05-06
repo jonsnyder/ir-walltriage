@@ -1,0 +1,29 @@
+<h1>Listing stat_values</h1>
+
+<table>
+  <tr>
+    <th>Stat</th>
+    <th>Strategy</th>
+    <th>Access token</th>
+    <th>Value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @stat_values.each do |stat_value| %>
+  <tr>
+    <td><%= stat_value.stat %></td>
+    <td><%= stat_value.strategy %></td>
+    <td><%= stat_value.access_token %></td>
+    <td><%= stat_value.value %></td>
+    <td><%= link_to 'Show', stat_value %></td>
+    <td><%= link_to 'Edit', edit_stat_value_path(stat_value) %></td>
+    <td><%= link_to 'Destroy', stat_value, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Stat value', new_stat_value_path %>
