@@ -2,7 +2,7 @@ class StopwordList < ActiveRecord::Base
   extend ActiveSupport::Memoizable
 
   belongs_to :dataset
-  has_many :stopwords
+  has_many :stopwords, :dependent => :delete_all
 
   def word_hash
     hash = {}
@@ -18,8 +18,8 @@ class StopwordList < ActiveRecord::Base
   end
 
   def add_words( words)
-    words.each do |word|
-      stopwords.new( :word => word)
+    words.each do |word, freq|
+      stopwords.new( :word => word, :doc_freq => freq)
     end
   end
 end

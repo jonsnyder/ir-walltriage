@@ -63,7 +63,7 @@ class Post < ActiveRecord::Base
   end
 
   def update_search
-    self.search = tokenized { |word| true }.strip
+    self.search = tokenized { |word| true }.join(" ")
     self.save!
   end
   
@@ -72,20 +72,20 @@ class Post < ActiveRecord::Base
   end
 
   def to_mallet
-    id.to_s + " en" + tokenized { |word| yield word }
+    id.to_s + " en " + tokenized { |word| yield word }.join(' ')
   end
 
   def tokenized
-    ret = ""
+    ret = []
     Tokenizer.scan( message) do |word|
       if yield word
-        ret += " " + word
+        ret << word
       end
     end
     comments.each do |comment|
       Tokenizer.scan( comment.message) do |word|
         if yield word
-          ret += " " + word
+          ret << word
         end
       end
     end

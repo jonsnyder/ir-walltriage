@@ -5,6 +5,16 @@
   <%= @stopword_list.name %>
 </p>
 
+<p>
+  <b>Dataset:</b>
+  <%= @stopword_list.dataset.name %>
+</p>
 
 <%= link_to 'Edit', edit_stopword_list_path(@stopword_list) %> |
 <%= link_to 'Back', stopword_lists_path %>
+
+<ul>
+  <% @stopword_list.stopwords.where("doc_freq IS NULL OR doc_freq > 1").each do |word| -%>
+  <li><%= word.word -%></li>
+  <% end -%>
+</ul>

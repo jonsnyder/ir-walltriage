@@ -1,5 +1,5 @@
 class Dataset < ActiveRecord::Base
-  has_many :posts, :dependent => :destroy
+  has_many :posts, :dependent => :destroy, :include => :comments
   has_many :stopword_lists, :dependent => :destroy
   
   def copy_posts_into_dataset( posts)
@@ -51,7 +51,7 @@ class Dataset < ActiveRecord::Base
     
     posts.each do |post|
       tf = WordFrequency.new
-      post.tokenized { |word| true }.split(" ").each do |word|
+      post.tokenized { |word| true }.each do |word|
         if !word.blank?
           tf.add( word)
         end

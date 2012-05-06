@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120505230942) do
+ActiveRecord::Schema.define(:version => 20120506044703) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20120505230942) do
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
     t.integer  "stopword_list_id"
+    t.float    "validation_score"
   end
 
   add_index "mallet_runs", ["dataset_id"], :name => "index_mallet_runs_on_dataset_id"
@@ -192,6 +193,7 @@ ActiveRecord::Schema.define(:version => 20120505230942) do
     t.integer  "stopword_list_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.integer  "doc_freq"
   end
 
   add_index "stopwords", ["stopword_list_id"], :name => "index_stopwords_on_stopword_list_id"

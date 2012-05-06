@@ -23,14 +23,14 @@ class WordFrequency
   end
 
   def top_n_words( n)
-    @freq.sort_by { |word, freq| -1 * freq }.take(n).map(&:first)
+    @freq.sort_by { |word, freq| -1 * freq }.take(n)
   end
 
   def words_occuring_more_than_n_times( n)
     words = []
     @freq.each do |word, freq|
       if freq > n
-        words << word
+        words << [word, freq]
       end
     end
     words
@@ -40,7 +40,7 @@ class WordFrequency
     words = []
     @freq.each do |word, freq|
       if freq == 1
-        words << word
+        words << [word, freq]
       end
     end
     words

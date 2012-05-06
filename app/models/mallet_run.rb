@@ -77,12 +77,19 @@ class MalletRun < ActiveRecord::Base
   def k_fold_cross_validation( k)
     mallet_commands.jobs_like( "Evaluation").destroy_all
 
+    total_score = 0.0
+    total_words = 0
+    
     dataset.k_fold_cross_validation_sets( k) do |i, training_set, validation_set|
       self.state = "Running Evaluation #{i+1} of #{k}"
       save!
-      run_evaluation( i, training_set, validation_set)
+      score, words = run_evaluation( i, training_set, validation_set)
+      total_score += score
+      total_words += words
     end
-    
+
+    self.validation_score = total_score / total_words
+    self.save!
   end
   
   def run_evaluation( i, training_set, validation_set)
@@ -96,15 +103,27 @@ class MalletRun < ActiveRecord::Base
     validation_input_file = dir + "/validation_input.txt"
     validation_mallet_file = dir + "/validation_input.mallet"
     evaluator_file = dir + "/evaluator"
+    output_prob_file = dir + "/output_prob.txt"
     
     dataset.to_mallet_file( training_input_file, training_set) { |word| !stopword_list.contains(word) }
-    dataset.to_mallet_file( validation_input_file, validation_set) { |word| !stopword_list.contains(word) }
+    validation_word_count = 0
+    dataset.to_mallet_file( validation_input_file, validation_set) do |word|
+      if stopword_list.contains(word)
+        false
+      else
+        validation_word_count += 1
+        true
+      end
+    end
     
     mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --input #{training_input_file} --output #{training_mallet_file} --token-regex '#{TOKEN_REGEX}'").run
     mallet_commands.create( :job => job, :command => "#{MALLET} train-topics --input #{training_mallet_file} #{mallet_options} --evaluator-filename #{evaluator_file}").run
 
     mallet_commands.create( :job => job, :command => "#{MALLET} import-file --keep-sequence --use-pipe-from #{training_mallet_file} --input #{validation_input_file} --output #{validation_mallet_file} --token-regex '#{TOKEN_REGEX}'").run
-    mallet_commands.create( :job => job, :command => "#{MALLET} evaluate-topics --evaluator #{evaluator_file} --input #{validation_mallet_file} --output-doc-probs #{dir}/output_doc_probs.txt --output-prob #{dir}/output_prob.txt").run
+    mallet_commands.create( :job => job, :command => "#{MALLET} evaluate-topics --evaluator #{evaluator_file} --input #{validation_mallet_file} --output-prob #{output_prob_file}").run
+
+    score = open( output_prob_file, "r").read.strip.to_f
+    [score, validation_word_count]
   end
 
   def mallet_options
