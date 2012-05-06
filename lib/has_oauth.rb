@@ -3,7 +3,7 @@ module HasOauth
   def oauth
     @oauth = Koala::Facebook::OAuth.new( Walltriage::Application.config.facebook_app_id,
                                          Walltriage::Application.config.facebook_secret,
-                                         access_tokens_fb_url)
+                                         fb_access_tokens_url)
 
   end
 end

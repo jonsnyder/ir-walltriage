@@ -1,6 +1,5 @@
 class MalletRunsController < ApplicationController
   include IsLoggedIn
-
   before_filter :is_superuser
   
   # GET /mallet_runs

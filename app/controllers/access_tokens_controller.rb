@@ -1,6 +1,6 @@
 class AccessTokensController < ApplicationController
-
-  include HasOauth
+  include IsLoggedIn
+  before_filter :is_superuser
   
   # GET /access_tokens
   # GET /access_tokens.json

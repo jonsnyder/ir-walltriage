@@ -5,6 +5,7 @@
     <th>Facebook ID</th>
     <th>Name</th>
     <th>Access Token</th>
+    <th>Use for stats</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +16,7 @@
     <td><%= access_token.fbid %></td>
     <td><%= access_token.name %></td>
     <td><%= access_token.access_token %></td>
+    <td><%= access_token.use_for_stats ? "Yes" : "No" %></td>
     <td><%= link_to 'Show', access_token %></td>
     <td><%= link_to 'Edit', edit_access_token_path(access_token) %></td>
     <td><%= link_to 'Destroy', access_token, confirm: 'Are you sure?', method: :delete %></td>

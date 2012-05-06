@@ -36,15 +36,15 @@ Walltriage::Application.routes.draw do
 
   # resources :pages
 
-  get "access_tokens/fb"
-  get "access_tokens/log_out"
+  #get "access_tokens/fb"
+  #get "access_tokens/log_out"
 
-  #resources :access_tokens do
-  #  collection do
-  #    get 'fb'
-  #    get 'log_out'
-  #  end
-  #end
+  resources :access_tokens do
+    collection do
+      get 'fb'
+      get 'log_out'
+    end
+  end
 
   get "home/index"
   get "home/instructions"
