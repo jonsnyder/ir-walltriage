@@ -3,6 +3,7 @@ class MalletRun < ActiveRecord::Base
   belongs_to :stopword_list
   has_many :mallet_commands
   has_many :lda_topics
+  has_many :strategies
 
   def jobs
     mallet_commands.select('distinct job').map(&:job)
@@ -89,6 +90,7 @@ class MalletRun < ActiveRecord::Base
     end
 
     self.validation_score = total_score / total_words
+    self.state = "Finished"
     self.save!
   end
   
@@ -132,5 +134,9 @@ class MalletRun < ActiveRecord::Base
 
   def make_directory( dir, job) 
     mallet_commands.create( :job => job, :command => "[ -e #{dir} ] && rm -rf #{dir}; mkdir #{dir}" ).run
+  end
+
+  def perplexity
+    validation_score && Math.exp( -1 * validation_score)
   end
 end

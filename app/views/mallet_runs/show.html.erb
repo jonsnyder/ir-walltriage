@@ -40,17 +40,63 @@
   <%= @mallet_run.state %>
 </p>
 
+<% if @mallet_run.validation_score -%>
 <p>
   <b>Perplexity:</b>
-  <%= Math.exp( -1 * @mallet_run.validation_score) %>
+  <%= @mallet_run.perplexity %>
 </p>
+<% end -%>
 
+<div style="padding:10px;float:left;border:1px solid black;margin:10px 0px;">
 <%= link_to 'Run', run_mallet_run_path(@mallet_run), :method => :post %> | 
 <%= link_to 'Run 5-fold validation', run_validation_mallet_run_path(@mallet_run, :k => 5), :method => :post %> |
 <%= link_to 'Run 10-fold validation', run_validation_mallet_run_path(@mallet_run, :k => 10), :method => :post %> |
 <%= link_to 'Edit', edit_mallet_run_path(@mallet_run) %> |
 <%= link_to 'Back', mallet_runs_path %>
+</div>
 
+<div style="padding:10px;float:left;border:1px solid black;margin:10px 0px;clear:left;">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Tags</th>
+      <th>Stats</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @mallet_run.strategies.each do |strategy| -%>
+    <tr>
+      <td><%= strategy.name %></td>
+      <td><%= strategy.lda_post_tags.count %></td>
+      <td><%= strategy.stat_values.count %></td>
+      <td><%= link_to 'Run', run_strategy_path(strategy), :method => :post %></td>
+      <td><%= link_to 'Show', strategy_path(strategy.id) %></td>
+      <td><%= link_to 'Edit', edit_strategy_path(strategy) %></td>
+      <td><%= link_to 'Destroy', strategy_path(strategy.id), confirm: 'Are you sure?', method: :delete %></td>
+    </tr>     
+    <% end -%>
+  </table>
+</div>
+
+<form action="<%= strategies_path -%>" method="post" style="padding:10px;float:left;border:1px solid black;clear:both;margin:10px 0px;clear:left;">
+  <input type="hidden" name="mallet_run_id" value="<%= @mallet_run.id -%>"/>
+  <div class="field">
+    <label>Strategy Type</label>
+    <select name="type">
+      <option value="Strategy::TopicThreshold">Topic Threshold</option>
+      <option value="Strategy::TopNTopics">Top N Topics</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Parameter</label>
+    <input type="text" name="options"/>
+  </div>
+  <input type="submit" value="Submit"/>
+</form>
+
+<div style="padding:10px;float:left;border:1px solid black;clear:both;margin:10px 0px;">
 <% @mallet_run.jobs.each do |job| -%>
   <h4><%= link_to job, jobs_mallet_run_path( @mallet_run, :job => job) -%>
 <% end -%>
+</div>

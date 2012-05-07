@@ -16,7 +16,7 @@ class CosineSimularity
       (i+1..@tf_idfs.size-1).each do |ii|
 
         simularity = @tf_idfs[i].cosine_sim( @tf_idfs[ii])
-        puts "#{@tf_idfs[i].id} - #{@tf_idfs[ii].id}"
+        # puts "#{@tf_idfs[i].id} - #{@tf_idfs[ii].id}"
         if @matcher.matches?( @tf_idfs[i].id, @tf_idfs[ii].id)
           sum_of_intra += simularity
           count_of_same += 1

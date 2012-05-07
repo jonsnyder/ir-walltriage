@@ -2,24 +2,25 @@
 
 <table>
   <tr>
-    <th>Stat</th>
-    <th>Strategy</th>
-    <th>Access token</th>
-    <th>Value</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Mallet Run</th>
+    <th>Perplexity</th>
+    <th>Tagging Strategy</th>
+    <th>Cosine Simularity</th>
+    <th>Compared With</th>
+    <th>Kappa</th>
+    <th>Precision</th>
+    <th>Recall</th>
   </tr>
 
-<% @stat_values.each do |stat_value| %>
+<% @grid.rows do |row| %>
   <tr>
-    <td><%= stat_value.stat %></td>
-    <td><%= stat_value.strategy %></td>
-    <td><%= stat_value.access_token %></td>
-    <td><%= stat_value.value %></td>
-    <td><%= link_to 'Show', stat_value %></td>
-    <td><%= link_to 'Edit', edit_stat_value_path(stat_value) %></td>
-    <td><%= link_to 'Destroy', stat_value, confirm: 'Are you sure?', method: :delete %></td>
+    <% row.each do |cell| %>
+      <% if cell.kind_of?( Array) -%>
+        <td rowspan="<%= cell.last -%>"><%= cell.first -%></td>
+      <% else -%>
+        <td><%= cell %></td>
+      <% end -%>
+    <% end -%>
   </tr>
 <% end %>
 </table>

@@ -11,7 +11,11 @@ Walltriage::Application.routes.draw do
 
   resources :lda_post_tags
 
-  resources :strategies
+  resources :strategies do
+    member do
+      post 'run'
+    end
+  end
 
   resources :lda_topic_words
 

@@ -17,9 +17,9 @@
     <td><%= strategy.description %></td>
     <td><%= strategy.type %></td>
     <td><%= strategy.options %></td>
-    <td><%= link_to 'Show', strategy %></td>
+    <td><%= link_to 'Show', strategy_path(strategy.id) %></td>
     <td><%= link_to 'Edit', edit_strategy_path(strategy) %></td>
-    <td><%= link_to 'Destroy', strategy, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Destroy', strategy_path(strategy.id), confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

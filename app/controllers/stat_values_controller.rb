@@ -1,12 +1,20 @@
 class StatValuesController < ApplicationController
+  include IsLoggedIn
+  before_filter :is_superuser
+
   # GET /stat_values
   # GET /stat_values.json
   def index
-    @stat_values = StatValue.all
+    stat_values = StatValue.
+      includes(:access_token, :strategy => [:mallet_run]).
+      where('strategies.name IS NOT NULL').
+      order( "mallet_runs.name, strategies.name, access_tokens.name")
+
+    @grid = CollapsingGrid.new stat_values
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @stat_values }
+      format.json { render json: stat_values }
     end
   end
 

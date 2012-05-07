@@ -44,15 +44,21 @@ class StrategiesController < ApplicationController
   # POST /strategies
   # POST /strategies.json
   def create
-    @strategy = Strategy.new(params[:strategy])
+    if params[:type] == "Strategy::TopicThreshold"
+      @strategy = Strategy::TopicThreshold.create( :options => {:threshold => params[:options].to_f}, :mallet_run_id => params[:mallet_run_id] )
+    elsif params[:type] == "Strategy::TopNTopics"
+      @strategy = Strategy::TopNTopics.create( :options => {:n => params[:options].to_i}, :mallet_run_id => params[:mallet_run_id])
+    else
+      message = "Invalid Strategy Type"
+    end
 
     respond_to do |format|
-      if @strategy.save
-        format.html { redirect_to @strategy, notice: 'Strategy was successfully created.' }
+      if @strategy && @strategy.save
+        format.html { redirect_to strategy_path(@strategy.id), notice: 'Strategy was successfully created.' }
         format.json { render json: @strategy, status: :created, location: @strategy }
       else
-        format.html { render action: "new" }
-        format.json { render json: @strategy.errors, status: :unprocessable_entity }
+        format.html { redirect_to strategies_path, notice: message }
+        format.json { render json: @strategy && @strategy.errors || message, status: :unprocessable_entity }
       end
     end
   end
@@ -82,6 +88,15 @@ class StrategiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to strategies_url }
       format.json { head :no_content }
+    end
+  end
+
+  def run
+    @strategy = Strategy.find(params[:id])
+    @strategy.run_and_compute_stats_async
+
+    respond_to do |format|
+      format.html { redirect_to @stratey.mallet_run, notice: 'Strategy started.' }
     end
   end
 end

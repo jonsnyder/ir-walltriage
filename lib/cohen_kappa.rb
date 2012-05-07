@@ -31,12 +31,20 @@ class CohenKappa
   def total
     @total
   end
-
+  
   def score
     pr_a = (count(true,true) + count(false,false)).to_f / @total
     pr_match1 = (count(true,true) + count(true,false)).to_f / @total
     pr_match2 = (count(true,true) + count(false,true)).to_f / @total
     pr_e = (pr_match1 * pr_match2) + ((1-pr_match1)*(1-pr_match2))
     (pr_a - pr_e) / (1 - pr_e)
-  end  
+  end
+
+  def precision
+    count(true,true).to_f / (count(true,true) + count(true,false))
+  end
+
+  def recall
+    count(true,true).to_f / (count(true,true) + count(false,true))
+  end
 end
