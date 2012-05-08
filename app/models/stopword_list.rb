@@ -22,4 +22,5 @@ class StopwordList < ActiveRecord::Base
       stopwords.new( :word => word, :doc_freq => freq)
     end
   end
+
 end

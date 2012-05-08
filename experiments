@@ -1,0 +1,37 @@
+
+
+
+Number of Documents: (Kohls)
+10000
+5000
+1000
+500
+
+Iterations: (Kohls 10000 and AP, 200 stopwords)
+20000
+10000
+5000
+1000
+
+Tagging Strategy:
+Top3
+Top2
+.095
+.195
+
+Stopwords:
+Mallet List
+No Stopwords
+Top 50 df
+Top 50 df, no words once
+Top 200 df, no words once
+50%, no words once
+
+alpha:
+100
+50
+10
+5
+
+
+

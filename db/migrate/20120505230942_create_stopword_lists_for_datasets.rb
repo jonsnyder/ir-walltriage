@@ -11,23 +11,23 @@ class CreateStopwordListsForDatasets < ActiveRecord::Migration
         list.add_words( df.top_n_words 50)
         list.save
 
-        list = StopwordList.new( :name => "Top 50 words, no words once", :dataset => dataset)
-        list.add_words( df.top_n_words( 50))
-        list.add_words( df.words_occuring_once)
-        list.save
+        #list = StopwordList.new( :name => "Top 50 words, no words once", :dataset => dataset)
+        #list.add_words( df.top_n_words( 50))
+        #list.add_words( df.words_occuring_once)
+        #list.save
         
         list = StopwordList.new( :name => "Top 200 words", :dataset => dataset)
         list.add_words( df.top_n_words 200)
         list.save
 
-        list = StopwordList.new( :name => "Top 200 words, no words once", :dataset => dataset)
-        list.add_words( df.top_n_words( 200))
-        list.add_words( df.words_occuring_once)
-        list.save
+        #list = StopwordList.new( :name => "Top 200 words, no words once", :dataset => dataset)
+        #list.add_words( df.top_n_words( 200))
+        #list.add_words( df.words_occuring_once)
+        #list.save
 
-        list = StopwordList.new( :name => "Words in more than 50% of documents, no words once", :dataset => dataset)
+        list = StopwordList.new( :name => "Words in more than 50% of documents", :dataset => dataset)
         list.add_words( df.words_occuring_more_than_n_times( dataset.posts.count / 2))
-        list.add_words( df.words_occuring_once)
+        #list.add_words( df.words_occuring_once)
         list.save
         
       end
