@@ -133,7 +133,7 @@ class MalletRun < ActiveRecord::Base
   end
 
   def make_directory( dir, job) 
-    mallet_commands.create( :job => job, :command => "[ -e #{dir} ] && rm -rf #{dir}; mkdir #{dir}" ).run
+    mallet_commands.create( :job => job, :command => "[ -e #{dir} ] && rm -rf #{dir}; mkdir -p #{dir}" ).run
   end
 
   def perplexity
