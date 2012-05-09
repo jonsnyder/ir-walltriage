@@ -12,7 +12,8 @@ class Matcher::UserPostTags
   protected
 
   def tags_for_post( id)
-    UserPostTag.select(:tag).where(:post_id => id, :access_token_id => @access_token_id).map(&:tag)
+    post = Post.find(id)
+    UserPostTag.select(:tag).includes(:post).where(:posts => {:facebook_id => post.facebook_id}, :access_token_id => @access_token_id).map(&:tag)
   end
   memoize :tags_for_post
 end
