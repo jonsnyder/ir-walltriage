@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120506224237) do
+ActiveRecord::Schema.define(:version => 20120509050621) do
 
   create_table "access_tokens", :force => true do |t|
     t.string   "name"
@@ -164,13 +164,15 @@ ActiveRecord::Schema.define(:version => 20120506224237) do
     t.integer  "like_count"
     t.integer  "comment_count"
     t.integer  "share_count"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.integer  "dataset_id"
     t.text     "search"
+    t.boolean  "is_gold_standard"
   end
 
   add_index "posts", ["dataset_id"], :name => "index_posts_on_dataset_id"
+  add_index "posts", ["facebook_id"], :name => "index_posts_on_facebook_id"
   add_index "posts", ["page_id"], :name => "index_posts_on_page_id"
 
   create_table "stat_values", :force => true do |t|

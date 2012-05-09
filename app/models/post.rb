@@ -7,6 +7,7 @@ class Post < ActiveRecord::Base
   has_many :lda_post_topics
   has_many :lda_post_tags
   
+  scope :gold_standard, where( :is_gold_standard => true)
   scope :not_authored_by, lambda { |id| where('posts.from_id != ?', id) }
   scope :no_dataset, where( :dataset_id => nil)
   scope :tags_any, lambda { |tags,user| includes(:user_post_tags).where("user_post_tags.access_token_id = ?", user.id).where( tags.map { |tag| "user_post_tags.tag = '#{tag}'" }.join(" OR ") ) }
@@ -110,6 +111,7 @@ class Post < ActiveRecord::Base
   def graph
     AccessToken.graph
   end
+
   
 private
   
