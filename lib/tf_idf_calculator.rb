@@ -1,7 +1,8 @@
 class TfIdfCalculator
 
-  def initialize( posts)
+  def initialize( posts, stopword_list)
     @posts = posts
+    @stopword_list = stopword_list
   end
 
   def calculate
@@ -9,7 +10,7 @@ class TfIdfCalculator
     
     @posts.map do |post|
       tf_idf = TfIdf.new post.id, doc_freq, @posts.size
-      post.search.split(" ").each do |word|
+      post.tokenized { |word| !@stopword_list.contains( word) }.each do |word|
         if !word.blank?
           tf_idf.add word
         end

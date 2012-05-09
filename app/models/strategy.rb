@@ -20,7 +20,7 @@ class Strategy < ActiveRecord::Base
   end
 
   def run_and_compute_stats_async
-    Delayed::Job.enqueue DelayedJob.new( id, type, :run_and_compute_stats, [])
+    Delayed::Job.enqueue DelayedJob.new( id, self.class, :run_and_compute_stats, [])
   end
   
   def run_and_compute_stats
@@ -34,6 +34,7 @@ class Strategy < ActiveRecord::Base
     system_matcher = Matcher::LdaPostTags.new( self)
     post_ids = mallet_run.dataset.post_ids
     
+    if false
     AccessToken.where(:use_for_stats => true).each do |user|
 
       user_matcher = Matcher::UserPostTags.new( user.id)
@@ -45,14 +46,15 @@ class Strategy < ActiveRecord::Base
       stat_values.create( :stat => Stat.precision, :access_token => user, :value => fix( kappa.precision))
       stat_values.create( :stat => Stat.recall, :access_token => user, :value => fix( kappa.recall))
     end
+    end
 
-    tf_idfs = TfIdfCalculator.new( mallet_run.dataset.posts).calculate
+    tf_idfs = TfIdfCalculator.new( mallet_run.dataset.posts, mallet_run.stopword_list).calculate
     cs = CosineSimularity.new( tf_idfs, system_matcher).calculate
     stat_values.create( :stat => Stat.cosine_simularity, :value => (cs[0] / cs[1])) 
   end
 
   def fix( value)
-    if value == NaN
+    if value.nan?
       nil
     else
       value

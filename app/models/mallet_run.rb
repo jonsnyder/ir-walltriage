@@ -47,31 +47,51 @@ class MalletRun < ActiveRecord::Base
     file = open( filename, 'r')
     doc = Nokogiri::XML( file)
     topics = []
+    columns = [:lda_topic_id, :weight, :tokens, :word]
+    rows = []
     doc.xpath('//topics/topic').each do |topic|
       t = lda_topics.create( :alpha => topic['alpha'], :tokens => topic['totalTokens'], :title => topic['titles'])
       topic.children.each do |topic_word|
         if !topic_word.text?
-          t.lda_topic_words.create( :weight => topic_word['weight'], :tokens => topic_word['count'], :word => topic_word.content)
+          rows << [t.id, topic_word['weight'], topic_word['count'], topic_word.content.strip[0..200] ]
         end
       end
       topics << t
     end
+    LdaTopicWord.import columns, rows, :validate => false
     topics
   end
 
   def import_doc_topics( filename, topics)
     file = open( filename, 'r')
+    columns = [:lda_topic_id, :post_id, :weight]
+    rows = []
     file.each_line do |line|
       if line =~ /^#/
         next
       end
       i, id, *doc_topics = line.split("\t")
       doc_topics.pop
-      weights = Hash[*doc_topics].sort_by { |k,v| k}.map(&:last)
 
-      topics.each_with_index  do |topic,i|
-        topic.lda_post_topics.create( :post_id => id, :weight => weights[i])
+      doc_topics.take(10).each_slice(2) do |topic_i,weight|
+        topic_id = topics[topic_i.to_i].id
+        if topic_id && id.to_i && weight.to_f
+          rows << [topics[topic_i.to_i].id, id.to_i, weight.to_f]
+        else
+          puts "null =================="
+          puts topic_id.inspect
+          puts id.inpsect
+          puts weight.inspect
+        end
       end
+      if rows.size > 1000
+        #puts rows
+        LdaPostTopic.import columns, rows, :validate => false
+        rows = []
+      end
+    end
+    if rows.size > 0
+      LdaPostTopic.import columns, rows, :validate => false
     end
   end
 
@@ -90,7 +110,7 @@ class MalletRun < ActiveRecord::Base
     end
 
     self.validation_score = total_score / total_words
-    self.state = "Finished"
+    self.state = "Finished Cross Validation"
     self.save!
   end
   

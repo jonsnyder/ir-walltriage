@@ -96,7 +96,7 @@ class StrategiesController < ApplicationController
     @strategy.run_and_compute_stats_async
 
     respond_to do |format|
-      format.html { redirect_to @stratey.mallet_run, notice: 'Strategy started.' }
+      format.html { redirect_to @strategy.mallet_run, notice: 'Strategy started.' }
     end
   end
 end

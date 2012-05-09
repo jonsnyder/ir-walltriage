@@ -17,12 +17,14 @@ class CosineSimularity
 
         simularity = @tf_idfs[i].cosine_sim( @tf_idfs[ii])
         # puts "#{@tf_idfs[i].id} - #{@tf_idfs[ii].id}"
-        if @matcher.matches?( @tf_idfs[i].id, @tf_idfs[ii].id)
-          sum_of_intra += simularity
-          count_of_same += 1
-        else
-          sum_of_inter += simularity
-          count_of_diff += 1
+        if !simularity.nan?
+          if @matcher.matches?( @tf_idfs[i].id, @tf_idfs[ii].id)
+            sum_of_intra += simularity
+            count_of_same += 1
+          else
+            sum_of_inter += simularity
+            count_of_diff += 1
+          end
         end
       end
     end

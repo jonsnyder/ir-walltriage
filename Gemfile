@@ -49,3 +49,4 @@ gem 'kaminari'
 gem 'open4'
 gem 'nokogiri'
 gem 'delayed_job_active_record'
+gem "activerecord-import", ">= 0.2.0"
