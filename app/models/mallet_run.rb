@@ -1,4 +1,8 @@
+require 'zlib'
+
 class MalletRun < ActiveRecord::Base
+  include IterMethods
+
   belongs_to :dataset
   belongs_to :stopword_list
   has_many :mallet_commands
@@ -149,7 +153,7 @@ class MalletRun < ActiveRecord::Base
   end
 
   def mallet_options
-    "--num-topics #{num_topics} --num-iterations #{num_iterations} --optimize-burn-in #{optimize_burn_in} --alpha #{alpha} --use-symmetric-alpha #{use_symetric_burn_in ? 'TRUE' : 'FALSE'} --show-topics-interval 500"
+    "--num-topics #{num_topics} --num-iterations #{num_iterations} --optimize-burn-in #{optimize_burn_in} --alpha #{alpha} --use-symmetric-alpha #{use_symetric_burn_in ? 'TRUE' : 'FALSE'} --show-topics-interval 500 --num-top-words 20"
   end
 
   def make_directory( dir, job) 
@@ -159,4 +163,121 @@ class MalletRun < ActiveRecord::Base
   def perplexity
     validation_score && Math.exp( -1 * validation_score)
   end
+
+  SENTENCE_AND_WORD_SPLIT = 'python vendor/nltk/sentence_and_word_split.py'
+  def split_and_tokenize_sentences
+
+    job = "Parse"
+    dir = "./tmp/mallet_run_#{id}/parse"
+    make_directory( dir, job)
+    
+    sentence_filename = "#{dir}/sentence_file.txt"
+    sentence_file = open( sentence_filename, "w")
+    dataset.print_lines_to( sentence_file)
+    sentence_file.close
+    
+    command = mallet_commands.create( :job => job, :command => "#{SENTENCE_AND_WORD_SPLIT} #{sentence_filename}" )
+
+    command.run do |line|
+      data = ActiveSupport::JSON.decode(line) rescue next
+      puts "#{data['type']}:#{data['id']}"
+      puts data["text"]
+      puts data["tokenized"].join(" ")
+      my_tokenized = []
+      Tokenizer.scan( data["text"]) do |word|
+        my_tokenized << word
+      end
+      puts my_tokenized.join(" ")
+    end
+  end
+
+  
+  SENTENCE_SPLIT = 'python vendor/nltk/sentence_split.py'
+
+  def make_sentences( command)
+    command.run do |line|
+      data = ActiveSupport::JSON.decode(line) rescue next
+      data["split"].each_with_index do |sentence, i|
+        yield Sentence.new( i, data)
+      end
+    end
+  end
+
+  def read_output( filename)
+    all_topics = lda_topics.all
+    
+    Zlib::GzipReader.open( filename) do |gz|
+      gz.each_line do |line|
+        case line
+        when /^#/
+          next
+        else
+          row = line.split(" ")
+          yield row[4], all_topics[row[5].to_i]
+        end
+      end
+    end
+  end
+  
+  def make_labels
+    job = "Labels"
+    dir = "./tmp/mallet_run_#{id}/labels"
+    make_directory( dir, job)
+    
+    output_state_filename = "./tmp/mallet_run_#{id}/output_state.gz"
+    
+    sentence_filename = "#{dir}/sentence_file.txt"
+    sentence_file = open( sentence_filename, "w")
+    dataset.print_lines_to( sentence_file)
+    sentence_file.close
+    
+    command = mallet_commands.create( :job => job, :command => "#{SENTENCE_SPLIT} #{sentence_filename}" )
+
+    output_state_enum = enum_for( :read_output, output_state_filename)
+
+    top_sentences = {}
+    lda_topics.all.each do |topic|
+      top_sentences[topic] = TopItems.new 10
+    end
+    
+    times_didnt_match = 0
+    make_sentences( command) do |sentence|
+      sentence.tokenized( stopword_list) do |word|
+        output_state_word, output_state_topic = output_state_enum.peek
+        
+        if word != output_state_word
+          times_didnt_match += 1
+          puts "=================="
+          puts sentence.raw
+          puts sentence.data
+          puts "Words don't match! #{word} != #{output_state_word}"
+          if times_didnt_match > 2
+            raise "Didn't match multiple times"
+          end
+          next
+        end
+
+        times_didnt_match = 0
+        output_state_enum.next
+        sentence.add_topic( output_state_topic)
+      end
+
+      top_sentences.each do |topic, top|
+        top.add( sentence.score( topic), sentence)
+      end
+    end
+
+
+    top_sentences.each do |topic, top|
+      puts "=============================="
+      puts topic.title
+      top.each do |score, sentence|
+        puts "#{score} #{sentence.raw}"
+      end
+    end
+    nil
+  end
+
+  
+  
 end

@@ -3,14 +3,16 @@ class Dataset < ActiveRecord::Base
   has_many :stopword_lists, :dependent => :destroy
   
   def copy_posts_into_dataset( posts)
-    posts.each do |post|
-      new_post = post.dup
-      new_post.dataset = self
-      new_post.save
-      post.comments.each do |comment|
-        new_comment = comment.dup
-        new_comment.post = new_post
-        new_comment.save
+    Dataset.transaction do
+      posts.each do |post|
+        new_post = post.dup
+        new_post.dataset = self
+        new_post.save
+        post.comments.each do |comment|
+          new_comment = comment.dup
+          new_comment.post = new_post
+          new_comment.save
+        end
       end
     end
   end
@@ -24,6 +26,12 @@ class Dataset < ActiveRecord::Base
     end
   end
 
+  def print_lines_to( file)
+    posts.each do |p|
+      p.print_lines_to( file)
+    end
+  end
+  
   def k_fold_cross_validation_sets( k)
     partitions = partition(k)
     partitions.each_with_index do |validation_set, i|
@@ -62,5 +70,6 @@ class Dataset < ActiveRecord::Base
     end
     df
   end
+
   
 end

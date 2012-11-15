@@ -1,4 +1,6 @@
 Walltriage::Application.routes.draw do
+  resources :sentences
+
   resources :stat_values
 
   resources :stopwords
@@ -30,20 +32,17 @@ Walltriage::Application.routes.draw do
     end
   end
 
-  # resources :user_comment_tags
+  resources :user_comment_tags
 
   resources :user_post_tags, :only => [:update, :destroy]
 
   resources :datasets
 
-  # resources :comments
+  resources :comments
 
   resources :posts, :only => [:index, :update]
 
-  # resources :pages
-
-  #get "access_tokens/fb"
-  #get "access_tokens/log_out"
+  resources :pages
 
   resources :access_tokens do
     collection do

@@ -78,21 +78,34 @@ class Post < ActiveRecord::Base
     id.to_s + " en " + tokenized { |word| yield word }.join(' ')
   end
 
-  def tokenized
+  def print_lines_to( file)
+    file.puts to_line
+    comments.each do |comment|
+      file.puts comment.to_line
+    end
+  end
+  
+  def to_line
+    text = (message && message.gsub(/\s+/," ").strip) || ""
+    {id: id, type: "Post", text: text}.to_json
+  end
+
+  def to_tokenized
     ret = []
     Tokenizer.scan( message) do |word|
       if yield word
         ret << word
       end
     end
+    ret.join(' ')
+  end
+
+  def tokenized( &block)
+    ret = []
+    ret << to_tokenized( &block)
     comments.each do |comment|
-      Tokenizer.scan( comment.message) do |word|
-        if yield word
-          ret << word
-        end
-      end
+      ret << comment.to_tokenized( &block)
     end
-    
     ret
   end
 

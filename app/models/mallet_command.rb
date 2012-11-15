@@ -4,11 +4,18 @@ class MalletCommand < ActiveRecord::Base
   scope :job, lambda { |job| where(:job => job) }
   scope :jobs_like, lambda { |job| where( 'job LIKE ?', "%#{job}%") }
   
-  def run
+  def run( writer = nil)
     
     pid, p_stdin, p_stdout, p_stderr = Open4::popen4 command
 
-    p_stdin.close
+    if writer
+      Thread.new do
+        writer.call p_stdin
+      end
+    else
+      p_stdin.close
+    end
+
     self.stdout = ""
     self.stderr = ""
     self.state = "RUNNING"
@@ -24,10 +31,22 @@ class MalletCommand < ActiveRecord::Base
       end
       
       ignored, status = Process::waitpid2( pid, Process::WNOHANG)
-      self.stdout += read_nonblock(p_stdout)
+
+      if block_given?
+        stdout_tail ||= ""
+        stdout_tail = read_lines_nonblock( stdout_tail, p_stdout) { |line| yield line }
+      else
+        self.stdout += read_nonblock(p_stdout)
+      end
       self.stderr += read_nonblock(p_stderr)
+
+      
+      
       if status 
         self.exit_status = status.exitstatus
+        if block_given? && stdout_tail != ""
+          yield stdout_tail
+        end
         self.state = "FINISHED"
         save!
         if status != 0
@@ -44,6 +63,20 @@ class MalletCommand < ActiveRecord::Base
     
   end
 
+  def read_lines_nonblock( last_line, io)
+    last_line += read_nonblock( io)
+    lines = last_line.split("\n")
+
+    last_line = (last_line[-1] == "\n" ? "" : lines.pop)
+
+    lines.each do |line|
+      yield line
+    end
+    last_line
+  end
+    
+    
+    
   def read_nonblock( io) 
     buf = ""
     while true

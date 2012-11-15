@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Raw:</b>
+  <%= @sentence.raw %>
+</p>
+
+<p>
+  <b>Tokenized:</b>
+  <%= @sentence.tokenized %>
+</p>
+
+<p>
+  <b>Post:</b>
+  <%= @sentence.post %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%= @sentence.comment %>
+</p>
+
+<p>
+  <b>Stopword list:</b>
+  <%= @sentence.stopword_list %>
+</p>
+
+
+<%= link_to 'Edit', edit_sentence_path(@sentence) %> |
+<%= link_to 'Back', sentences_path %>
